@@ -6,158 +6,164 @@ namespace MobLib.Crypt
 {
     public static class AESCrypter
     {
-        static int Rfc2898KeygenIterations = 100;
-        static int AesKeySizeInBits = 128;
-        static String Password = "n3@RB&& 4u7h3nt!C@t!0n Bec4us3 Siz3 M@tt3r$";
-        static byte[] Salt = { 77, 128, 77, 65, 16, 12, 61, 77, 126, 77, 16, 32, 12, 41, 64, 255 };
+        private const string SharedSecret = "n3@RB&& 4u7h3nt!C@t!0n Bec4us3 Siz3 M@tt3r$";
+        static readonly byte[] Salt = { 77, 128, 77, 65, 16, 12, 61, 77, 126, 77, 16, 32, 12, 41, 64, 255 };
 
-        public static string Encrypt(this string text)
+
+        /// <summary>
+        /// Encrypt the given string using AES.  The string can be decrypted using 
+        /// DecryptStringAES().  The SharedSecret parameters must match.
+        /// </summary>
+        /// <param name="plainText">The text to encrypt.</param>
+        public static byte[] Encrypt(this string plainText)
         {
-            if (string.IsNullOrEmpty(text))
-            {
-                return null;
-            }
+            if (string.IsNullOrEmpty(plainText))
+                throw new ArgumentNullException("plainText");
 
-            byte[] rawPlaintext = System.Text.Encoding.Unicode.GetBytes(text);
-            byte[] cipherText = null;
-            using (Aes aes = new AesManaged())
-            {
-                aes.Padding = PaddingMode.PKCS7;
-                aes.KeySize = AesKeySizeInBits;
-                int KeyStrengthInBytes = aes.KeySize / 8;
-                System.Security.Cryptography.Rfc2898DeriveBytes rfc2898 =
-                    new System.Security.Cryptography.Rfc2898DeriveBytes(Password, Salt, Rfc2898KeygenIterations);
-                aes.Key = rfc2898.GetBytes(KeyStrengthInBytes);
-                aes.IV = rfc2898.GetBytes(KeyStrengthInBytes);
-                using (MemoryStream ms = new MemoryStream())
-                {
-                    using (CryptoStream cs = new CryptoStream(ms, aes.CreateEncryptor(), CryptoStreamMode.Write))
-                    {
-                        cs.Write(rawPlaintext, 0, rawPlaintext.Length);
-                    }
-                    cipherText = ms.ToArray();
-                }
-                return ByteArrayToString(cipherText);
-            }
-        }
+            //string outStr = null;                       // Encrypted string to return
+            byte[] outBytes = null;                       // Encrypted byte array to return
+            RijndaelManaged aesAlg = null;              // RijndaelManaged object used to encrypt the data.
 
-        public static string Decrypt(this string text)
-        {
-            if (string.IsNullOrEmpty(text))
-            {
-                return null;
-            }
             try
             {
-                using (MemoryStream ms = new MemoryStream())
+                // generate the key from the shared secret and the salt
+                Rfc2898DeriveBytes key = new Rfc2898DeriveBytes(SharedSecret, Salt);
+
+                // Create a RijndaelManaged object
+                aesAlg = new RijndaelManaged();
+                aesAlg.Key = key.GetBytes(aesAlg.KeySize / 8);
+
+                // Create a decryptor to perform the stream transform.
+                ICryptoTransform encryptor = aesAlg.CreateEncryptor(aesAlg.Key, aesAlg.IV);
+
+                // Create the streams used for encryption.
+                using (MemoryStream msEncrypt = new MemoryStream())
                 {
-                    byte[] cipherText = StringToByteArray(text);
-                    byte[] plainText;
-                    using (Aes aes = new AesManaged())
+                    // prepend the IV
+                    msEncrypt.Write(BitConverter.GetBytes(aesAlg.IV.Length), 0, sizeof(int));
+                    msEncrypt.Write(aesAlg.IV, 0, aesAlg.IV.Length);
+                    using (CryptoStream csEncrypt = new CryptoStream(msEncrypt, encryptor, CryptoStreamMode.Write))
                     {
-                        aes.Padding = PaddingMode.PKCS7;
-                        aes.KeySize = AesKeySizeInBits;
-                        int KeyStrengthInBytes = aes.KeySize / 8;
-                        System.Security.Cryptography.Rfc2898DeriveBytes rfc2898 =
-                            new System.Security.Cryptography.Rfc2898DeriveBytes(Password, Salt, Rfc2898KeygenIterations);
-                        aes.Key = rfc2898.GetBytes(KeyStrengthInBytes);
-                        aes.IV = rfc2898.GetBytes(KeyStrengthInBytes);
-                        using (CryptoStream cs = new CryptoStream(ms, aes.CreateDecryptor(), CryptoStreamMode.Write))
+                        using (StreamWriter swEncrypt = new StreamWriter(csEncrypt))
                         {
-                            cs.Write(cipherText, 0, cipherText.Length);
+                            //Write all data to the stream.
+                            swEncrypt.Write(plainText);
                         }
-                        plainText = ms.ToArray();
-                        return System.Text.Encoding.Unicode.GetString(plainText);
                     }
+                    //outStr = Convert.ToBase64String(msEncrypt.ToArray());
+                    outBytes = msEncrypt.ToArray();
                 }
             }
-            //hides the decryptation exception, usually are not valids hexa caracters
-            catch(Exception)
+            finally
             {
-                return null;
+                // Clear the RijndaelManaged object.
+                if (aesAlg != null)
+                    aesAlg.Clear();
             }
+
+            // Return the encrypted bytes from the memory stream.
+            return outBytes;
         }
 
-        public static byte[] EncryptBytes(this string text)
+        /// <summary>
+        /// Decrypt the given string.  Assumes the string was encrypted using 
+        /// EncryptStringAES(), using an identical SharedSecret.
+        /// </summary>
+        /// <param name="cipherText">The text to decrypt.</param>
+        public static string Decrypt(this string cipherText)
         {
-            if (string.IsNullOrEmpty(text))
-            {
-                return null;
-            }
+            byte[] bytes = Convert.FromBase64String(cipherText);
 
-            byte[] rawPlaintext = System.Text.Encoding.Unicode.GetBytes(text);
-            byte[] cipherText = null;
-            using (Aes aes = new AesManaged())
-            {
-                aes.Padding = PaddingMode.PKCS7;
-                aes.KeySize = AesKeySizeInBits;
-                int KeyStrengthInBytes = aes.KeySize / 8;
-                System.Security.Cryptography.Rfc2898DeriveBytes rfc2898 =
-                    new System.Security.Cryptography.Rfc2898DeriveBytes(Password, Salt, Rfc2898KeygenIterations);
-                aes.Key = rfc2898.GetBytes(KeyStrengthInBytes);
-                aes.IV = rfc2898.GetBytes(KeyStrengthInBytes);
-                using (MemoryStream ms = new MemoryStream())
-                {
-                    using (CryptoStream cs = new CryptoStream(ms, aes.CreateEncryptor(), CryptoStreamMode.Write))
-                    {
-                        cs.Write(rawPlaintext, 0, rawPlaintext.Length);
-                    }
-                    cipherText = ms.ToArray();
-                }
-                return cipherText;
-            }
+            string plaintext = Decrypt(bytes);
+
+            return plaintext;
         }
 
-        public static string DecryptBytes(this byte[] text)
+        /// <summary>
+        /// Decrypt the given string.  Assumes the string was encrypted using 
+        /// EncryptStringAES(), using an identical SharedSecret.
+        /// </summary>
+        /// <param name="cipherBytes">The byte array to decrypt.</param>
+        public static string Decrypt(this byte[] cipherBytes)
         {
-            if (text == null)
-            {
-                return null;
-            }
+            if (cipherBytes == null)
+                throw new ArgumentNullException("cipherBytes");
+
+            // Declare the RijndaelManaged object
+            // used to decrypt the data.
+            RijndaelManaged aesAlg = null;
+
+            // Declare the string used to hold
+            // the decrypted text.
+            string plaintext = null;
+
             try
             {
-            using (MemoryStream ms = new MemoryStream())
-            {
-                byte[] cipherText = text;
-                byte[] plainText;
-                using (Aes aes = new AesManaged())
+                // generate the key from the shared secret and the salt
+                Rfc2898DeriveBytes key = new Rfc2898DeriveBytes(SharedSecret, Salt);
+
+                // Create the streams used for decryption.                \
+                using (MemoryStream msDecrypt = new MemoryStream(cipherBytes))
                 {
-                    aes.Padding = PaddingMode.PKCS7;
-                    aes.KeySize = AesKeySizeInBits;
-                    int KeyStrengthInBytes = aes.KeySize / 8;
-                    System.Security.Cryptography.Rfc2898DeriveBytes rfc2898 =
-                        new System.Security.Cryptography.Rfc2898DeriveBytes(Password, Salt, Rfc2898KeygenIterations);
-                    aes.Key = rfc2898.GetBytes(KeyStrengthInBytes);
-                    aes.IV = rfc2898.GetBytes(KeyStrengthInBytes);
-                    using (CryptoStream cs = new CryptoStream(ms, aes.CreateDecryptor(), CryptoStreamMode.Write))
+                    // Create a RijndaelManaged object
+                    // with the specified key and IV.
+                    aesAlg = new RijndaelManaged();
+                    aesAlg.Key = key.GetBytes(aesAlg.KeySize / 8);
+                    // Get the initialization vector from the encrypted stream
+                    aesAlg.IV = ReadByteArray(msDecrypt);
+                    // Create a decrytor to perform the stream transform.
+                    ICryptoTransform decryptor = aesAlg.CreateDecryptor(aesAlg.Key, aesAlg.IV);
+                    using (CryptoStream csDecrypt = new CryptoStream(msDecrypt, decryptor, CryptoStreamMode.Read))
                     {
-                        cs.Write(cipherText, 0, cipherText.Length);
+                        using (StreamReader srDecrypt = new StreamReader(csDecrypt))
+
+                            // Read the decrypted bytes from the decrypting stream
+                            // and place them in a string.
+                            plaintext = srDecrypt.ReadToEnd();
                     }
-                    plainText = ms.ToArray();
-                    return System.Text.Encoding.Unicode.GetString(plainText);
                 }
             }
-            }
-            catch (Exception)
+            finally
             {
-                return null;
+                // Clear the RijndaelManaged object.
+                if (aesAlg != null)
+                    aesAlg.Clear();
             }
+
+            return plaintext;
         }
 
-
-        public static byte[] StringToByteArray(this string hex)
+        private static byte[] ReadByteArray(Stream s)
         {
-            int NumberChars = hex.Length;
-            byte[] bytes = new byte[NumberChars / 2];
-            for (int i = 0; i < NumberChars; i += 2)
-                bytes[i / 2] = Convert.ToByte(hex.Substring(i, 2), 16);
-            return bytes;
+            byte[] rawLength = new byte[sizeof(int)];
+            if (s.Read(rawLength, 0, rawLength.Length) != rawLength.Length)
+            {
+                throw new SystemException("Stream did not contain properly formatted byte array");
+            }
+
+            byte[] buffer = new byte[BitConverter.ToInt32(rawLength, 0)];
+            if (s.Read(buffer, 0, buffer.Length) != buffer.Length)
+            {
+                throw new SystemException("Did not read byte array properly");
+            }
+
+            return buffer;
         }
 
-        public static string ByteArrayToString(this byte[] ba)
-        {
-            string hex = BitConverter.ToString(ba);
-            return hex.Replace("-", "");
-        }
+        //public static byte[] GetBytes(this string str)
+        //{
+        //    var bytes = new byte[str.Length * sizeof(char)];
+        //    Buffer.BlockCopy(str.ToCharArray(), 0, bytes, 0, bytes.Length);
+
+        //    return bytes;
+        //}
+
+        //public static string GetString(this byte[] bytes)
+        //{
+        //    var chars = new char[bytes.Length / sizeof(char)];
+        //    Buffer.BlockCopy(bytes, 0, chars, 0, bytes.Length);
+
+        //    return new string(chars);
+        //}
     }
 }
