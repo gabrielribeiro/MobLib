@@ -22,9 +22,9 @@ namespace MobLib.Extensions
             return result;
         }
 
-        public static bool IsNotNull(this string str)
+        public static bool IsNotNullOrWhiteSpace(this string str)
         {
-            return !string.IsNullOrEmpty(str);
+            return !string.IsNullOrWhiteSpace(str);
         }
 
         /// <summary>
@@ -32,9 +32,9 @@ namespace MobLib.Extensions
         /// </summary>
         /// <param name="str"></param>
         /// <returns></returns>
-        public static bool IsNull(this string str)
+        public static bool IsNullOrWhiteSpace(this string str)
         {
-            return string.IsNullOrEmpty(str);
+            return string.IsNullOrWhiteSpace(str);
         }
 
         public static bool IsEmail(this string emailString)

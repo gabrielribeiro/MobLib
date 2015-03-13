@@ -17,6 +17,17 @@ namespace MobLib.Extensions
         }
 
         /// <summary>
+        /// Converts any object to Int64
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="type"></param>
+        /// <returns></returns>
+        public static long ToLong<T>(this T type)
+        {
+            return Convert.ToInt64(type);
+        }
+
+        /// <summary>
         /// Converts the elements in the current IEnumerable to another type, 
         /// and returns a collection containing the converted elements.
         /// </summary>
