@@ -43,5 +43,21 @@ namespace MobLib.Extensions
             foreach (T item in collection)
                 yield return converter(item);
         }
+
+        /// <summary>
+        /// Performs an action on each item while iterating through a list. 
+        /// This is a handy shortcut for <c>foreach(item in list) { ... }</c>
+        /// </summary>
+        /// <typeparam name="T">The type of the items.</typeparam>
+        /// <param name="source">The list, which holds the objects.</param>
+        /// <param name="action">The action delegate which is called on each item while iterating.</param>
+        //[DebuggerStepThrough]
+        public static void Each<T>(this IEnumerable<T> source, Action<T> action)
+        {
+            foreach (T t in source)
+            {
+                action(t);
+            }
+        }
     }
 }
