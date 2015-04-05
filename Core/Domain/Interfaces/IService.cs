@@ -46,6 +46,13 @@ namespace MobLib.Core.Domain.Interfaces
         /// <returns></returns>
         TEntity SingleOrDefault(Expression<Func<TEntity, bool>> filterExpression,
             TEntity defaultValue);
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="filterExpression"></param>
+        /// <returns></returns>
+        bool Exists(Expression<Func<TEntity, bool>> filterExpression);
         #endregion
 
         #region .::Write Actions::.

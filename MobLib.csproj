@@ -77,6 +77,7 @@
     <Compile Include="Core\Infra\Data\MobRepository.cs" />
     <Compile Include="Core\Infra\Data\Extentions\EntityFilters.cs" />
     <Compile Include="Core\Infra\Data\MobDbContext.cs" />
+    <Compile Include="Core\Services\MobService.cs" />
     <Compile Include="Extensions\DateTimeExtensions.cs" />
     <Compile Include="Extensions\HttpRequestMessageExtensions.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
@@ -96,7 +97,7 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Core\Services\" />
+    <Folder Include="Core\Infra\Dependency\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
