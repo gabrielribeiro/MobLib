@@ -6,6 +6,10 @@ namespace MobLib.Core.Infra.Data
 {
     public class MobDbContext : DbContext
     {
+        public MobDbContext(string nameOrConnectionString)
+            : base(nameOrConnectionString)
+        {
+        }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
@@ -25,8 +29,8 @@ namespace MobLib.Core.Infra.Data
             modelBuilder.Properties<DateTime>().Where(d => d.Name == "CreatedDate").Configure(d => d.IsRequired());
             modelBuilder.Properties<DateTime>().Where(d => d.Name == "CreatedDate").Configure(d => d.IsRequired());
             modelBuilder.Properties<bool>().Where(x => x.Name == "Active").Configure(b => b.IsRequired());
-            
-            
+
+
             base.OnModelCreating(modelBuilder);
         }
     }
