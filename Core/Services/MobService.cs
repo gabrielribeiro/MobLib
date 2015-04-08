@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using MobLib.Core.Domain.Interfaces;
 using System.Linq.Expressions;
+using MobLib.Core.Infra.Data;
 
 namespace MobLib.Core.Services
 {
@@ -15,6 +16,11 @@ namespace MobLib.Core.Services
         #endregion
 
         #region .::Ctor::.
+
+        public MobService(MobDbContext dbContext)
+        {
+            repository = new MobRepository<T>(dbContext);
+        }
 
         public MobService(IRepository<T> repo)
         {
