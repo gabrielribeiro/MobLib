@@ -1,18 +1,16 @@
-﻿using MobLib.Core.Infra.Data;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Linq.Expressions;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace MobLib.Core.Domain.Interfaces
 {
-    public interface IRepository<TEntity> : IDisposable where TEntity : IEntity
+    public interface IMobService<TEntity> : IDisposable where TEntity : IEntity
     {
-        #region .::Properties::.
-        MobDbContext Context { get; }
-        bool AutoCommitEnabled { get; set; }
-        #endregion
-
-        #region .::Read Actions::.
+        IMobRepository<TEntity> Repository { get; }
+        #region .::Read Options::.
         /// <summary>
         /// 
         /// </summary>
@@ -44,8 +42,17 @@ namespace MobLib.Core.Domain.Interfaces
         /// 
         /// </summary>
         /// <param name="filterExpression"></param>
+        /// <param name="defaultValue"></param>
         /// <returns></returns>
-        TEntity SingleOrDefault(Expression<Func<TEntity, bool>> filterExpression);
+        TEntity SingleOrDefault(Expression<Func<TEntity, bool>> filterExpression,
+            TEntity defaultValue);
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="filterExpression"></param>
+        /// <returns></returns>
+        bool Exists(Expression<Func<TEntity, bool>> filterExpression);
         #endregion
 
         #region .::Write Actions::.
@@ -60,7 +67,7 @@ namespace MobLib.Core.Domain.Interfaces
         /// 
         /// </summary>
         /// <param name="entities"></param>
-        void InsertRange(IEnumerable<TEntity> entities, int batchSize);
+        void InsertRange(IEnumerable<TEntity> entities);
 
         /// <summary>
         /// 

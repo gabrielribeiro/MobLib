@@ -1,18 +1,16 @@
-﻿using MobLib.Core.Domain.Interfaces;
+﻿using EntityFramework.Extensions;
+using MobLib.Core.Domain.Interfaces;
 using MobLib.Core.Infra.Data.Extentions;
+using MobLib.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using MobLib.Extensions;
 using System.Data.Entity.Validation;
-using EntityFramework.Extensions;
+using System.Linq;
 
 namespace MobLib.Core.Infra.Data
 {
-    public class MobRepository<T> : IRepository<T>
+    public class MobRepository<T> : IMobRepository<T>
         where T : class, IEntity, new()
     {
         #region .::Fields::.
@@ -32,7 +30,7 @@ namespace MobLib.Core.Infra.Data
                 return db;
             }
         }
-        private DbSet<T> Entities
+        protected DbSet<T> Entities
         {
             get
             {
@@ -99,7 +97,10 @@ namespace MobLib.Core.Infra.Data
         public void Insert(T entity)
         {
             this.Entities.Add(entity);
-            db.SaveChanges();
+            if (this.AutoCommitEnabled)
+            {
+                db.SaveChanges();
+            }
         }
 
         public void InsertRange(IEnumerable<T> entities, int batchSize = 100)

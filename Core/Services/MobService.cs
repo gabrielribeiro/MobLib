@@ -1,18 +1,16 @@
-﻿using System;
+﻿using MobLib.Core.Domain.Interfaces;
+using MobLib.Core.Infra.Data;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using MobLib.Core.Domain.Interfaces;
 using System.Linq.Expressions;
-using MobLib.Core.Infra.Data;
 
 namespace MobLib.Core.Services
 {
-    public class MobService<T> : IService<T> where T : class, IEntity, new()
+    public class MobService<T> : IMobService<T> where T : class, IEntity, new()
     {
         #region .::Fields::.
-        private IRepository<T> repository;
+        private IMobRepository<T> repository;
         #endregion
 
         #region .::Ctor::.
@@ -22,7 +20,7 @@ namespace MobLib.Core.Services
             repository = new MobRepository<T>(dbContext);
         }
 
-        public MobService(IRepository<T> repo)
+        public MobService(IMobRepository<T> repo)
         {
             this.repository = repo;
         }
@@ -31,7 +29,7 @@ namespace MobLib.Core.Services
 
         #region .::Properties::.
 
-        public IRepository<T> Repository
+        public virtual IMobRepository<T> Repository
         {
             get { return repository; }
         }
@@ -139,7 +137,14 @@ namespace MobLib.Core.Services
 
         public void Dispose()
         {
+            //in case of the property been overrided
+            if (this.repository.GetType().FullName != this.Repository.GetType().FullName)
+            {
+                this.repository.Dispose();
+            }
+
             this.Repository.Dispose();
+
         }
     }
 }
