@@ -10,6 +10,7 @@ namespace MobLib.Core.Domain.Interfaces
     public interface IMobService<TEntity> : IDisposable where TEntity : IEntity
     {
         IMobRepository<TEntity> Repository { get; }
+
         #region .::Read Options::.
         /// <summary>
         /// 
@@ -46,6 +47,14 @@ namespace MobLib.Core.Domain.Interfaces
         /// <returns></returns>
         TEntity SingleOrDefault(Expression<Func<TEntity, bool>> filterExpression,
             TEntity defaultValue);
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="filterExpression"></param>
+        /// <param name="defaultValue"></param>
+        /// <returns></returns>
+        TEntity SingleOrDefault(Expression<Func<TEntity, bool>> filterExpression);
 
         /// <summary>
         /// 

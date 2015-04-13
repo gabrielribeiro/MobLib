@@ -88,5 +88,10 @@ namespace MobLib.Core.Domain.Interfaces
         /// <param name="entity"></param>
         void Delete(TEntity entity);
         #endregion
+
+        #region .::Helpers::.
+        void Commit();
+
+        #endregion
     }
 }

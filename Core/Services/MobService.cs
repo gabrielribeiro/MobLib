@@ -17,7 +17,12 @@ namespace MobLib.Core.Services
 
         public MobService(MobDbContext dbContext)
         {
-            repository = new MobRepository<T>(dbContext);
+            repository = CreateRepository(dbContext);
+        }
+
+        protected virtual MobRepository<T> CreateRepository(MobDbContext dbContext)
+        {
+            return new MobRepository<T>(dbContext);
         }
 
         public MobService(IMobRepository<T> repo)
@@ -38,7 +43,7 @@ namespace MobLib.Core.Services
 
         #region .::Read Actions::.
 
-        public T Find(params object[] keyValues)
+        public virtual T Find(params object[] keyValues)
         {
             if (keyValues == null) 
             {
@@ -49,23 +54,23 @@ namespace MobLib.Core.Services
 
         }
 
-        public IEnumerable<T> Get()
+        public virtual IEnumerable<T> Get()
         {
             return this.Repository.Get();
 
         }
 
-        public IEnumerable<T> GetBySearch(T search)
+        public virtual IEnumerable<T> GetBySearch(T search)
         {
             return this.repository.GetBySearch(search);
         }
 
-        public IEnumerable<T> Where(Expression<Func<T, bool>> filterExpression)
+        public virtual IEnumerable<T> Where(Expression<Func<T, bool>> filterExpression)
         {
             return this.Repository.Where(filterExpression);
         }
 
-        public T SingleOrDefault(Expression<Func<T, bool>> filterExpression, T defaultValue = null)
+        public virtual T SingleOrDefault(Expression<Func<T, bool>> filterExpression, T defaultValue)
         {
             T result = this.Repository.SingleOrDefault(filterExpression);
 
@@ -76,7 +81,12 @@ namespace MobLib.Core.Services
             return result;
         }
 
-        public bool Exists(Expression<Func<T, bool>> filterExpression)
+        public virtual T SingleOrDefault(Expression<Func<T, bool>> filterExpression)
+        {
+            return SingleOrDefault(filterExpression, null);
+        }
+
+        public virtual bool Exists(Expression<Func<T, bool>> filterExpression)
         {
             return this.Where(filterExpression).Any();
         }
@@ -84,7 +94,7 @@ namespace MobLib.Core.Services
 
         #region .::Write Actions::.
 
-        public void Insert(T entity)
+        public virtual void Insert(T entity)
         {
             if (entity == null)
             {
@@ -93,7 +103,7 @@ namespace MobLib.Core.Services
             this.Repository.Insert(entity);
         }
 
-        public void InsertRange(IEnumerable<T> entities, int batchSize)
+        public virtual void InsertRange(IEnumerable<T> entities, int batchSize)
         {
             if (entities == null || !entities.Any())
             {
@@ -102,7 +112,7 @@ namespace MobLib.Core.Services
 
             this.Repository.InsertRange(entities, batchSize);
         }
-        public void InsertRange(IEnumerable<T> entities)
+        public virtual void InsertRange(IEnumerable<T> entities)
         {
             if (entities == null || !entities.Any())
             {
@@ -112,24 +122,24 @@ namespace MobLib.Core.Services
             this.InsertRange(entities, 10);
         }
 
-        public void Delete(System.Linq.Expressions.Expression<Func<T, bool>> filterExpression)
+        public virtual void Delete(System.Linq.Expressions.Expression<Func<T, bool>> filterExpression)
         {
             this.Repository.Delete(filterExpression);
         }
 
-        public void Delete(T entity)
+        public virtual void Delete(T entity)
         {
             this.Repository.Delete(entity);
         }
 
 
-        public void Update(Expression<Func<T, bool>> filterExpression, 
+        public virtual void Update(Expression<Func<T, bool>> filterExpression, 
             Expression<Func<T, T>> updateExpression)
         {
             this.Repository.Update(filterExpression, updateExpression);
         }
 
-        public void Update(T entity)
+        public virtual void Update(T entity)
         {
             this.Repository.Update(entity);
         }

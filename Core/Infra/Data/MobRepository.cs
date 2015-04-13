@@ -211,7 +211,7 @@ namespace MobLib.Core.Infra.Data
 
         #region .::Helpers::.
 
-        private void SetOrChangeContext(MobDbContext context)
+        protected void SetOrChangeContext(MobDbContext context)
         {
             if (context == null)
             {
@@ -239,6 +239,11 @@ namespace MobLib.Core.Infra.Data
             }
 
             db = context;
+        }
+
+        public void Commit() 
+        {
+            this.Context.SaveChanges();
         }
 
         #endregion
