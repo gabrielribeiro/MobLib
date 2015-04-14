@@ -2,7 +2,7 @@
 
 namespace MobLib.Core.Domain.Interfaces
 {
-    public interface IEntity
+    public interface IMobEntity
     {
         int Id { get; set; }
         bool Active { get; set; }

@@ -70,8 +70,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Core\Domain\Entities\BaseEntity.cs" />
-    <Compile Include="Core\Domain\Interfaces\IEntity.cs" />
+    <Compile Include="Core\Domain\Entities\MobEntity.cs" />
+    <Compile Include="Core\Domain\Exceptions\MobException.cs" />
+    <Compile Include="Core\Domain\Interfaces\IMobEntity.cs" />
     <Compile Include="Core\Domain\Interfaces\IMobRepository.cs" />
     <Compile Include="Core\Domain\Interfaces\IMobService.cs" />
     <Compile Include="Core\Infra\Data\MobRepository.cs" />

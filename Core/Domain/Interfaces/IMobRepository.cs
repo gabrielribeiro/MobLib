@@ -5,7 +5,7 @@ using System.Linq.Expressions;
 
 namespace MobLib.Core.Domain.Interfaces
 {
-    public interface IMobRepository<TEntity> : IDisposable where TEntity : IEntity
+    public interface IMobRepository<TEntity> : IDisposable where TEntity : IMobEntity
     {
         #region .::Properties::.
         MobDbContext Context { get; }

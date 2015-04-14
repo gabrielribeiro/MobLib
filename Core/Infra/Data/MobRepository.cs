@@ -11,7 +11,7 @@ using System.Linq;
 namespace MobLib.Core.Infra.Data
 {
     public class MobRepository<T> : IMobRepository<T>
-        where T : class, IEntity, new()
+        where T : class, IMobEntity, new()
     {
         #region .::Fields::.
 
@@ -96,6 +96,10 @@ namespace MobLib.Core.Infra.Data
 
         public void Insert(T entity)
         {
+            entity.CreatedDate = DateTime.UtcNow;
+            entity.UpdatedDate = DateTime.UtcNow;
+            entity.Active = true;
+
             this.Entities.Add(entity);
             if (this.AutoCommitEnabled)
             {
@@ -126,6 +130,10 @@ namespace MobLib.Core.Infra.Data
                         bool saved = false;
                         foreach (var entity in entities)
                         {
+                            entity.CreatedDate = DateTime.UtcNow;
+                            entity.UpdatedDate = DateTime.UtcNow;
+                            entity.Active = true;
+
                             this.Entities.Add(entity);
                             saved = false;
                             if (i % batchSize == 0)
@@ -180,6 +188,8 @@ namespace MobLib.Core.Infra.Data
         {
             this.Entities.Attach(entity);
             db.Entry(entity).State = EntityState.Modified;
+            db.Entry(entity).Property(t => t.CreatedDate).IsModified = false;
+            db.Entry(entity).Property(t => t.UpdatedDate).CurrentValue = DateTime.UtcNow;
             if (this.AutoCommitEnabled)
             {
                 this.Context.SaveChanges();

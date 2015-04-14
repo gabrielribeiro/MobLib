@@ -7,7 +7,7 @@ using System.Linq.Expressions;
 
 namespace MobLib.Core.Services
 {
-    public class MobService<T> : IMobService<T> where T : class, IEntity, new()
+    public class MobService<T> : IMobService<T> where T : class, IMobEntity, new()
     {
         #region .::Fields::.
         private IMobRepository<T> repository;

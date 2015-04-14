@@ -4,9 +4,9 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace MobLib.Core.Domain.Entities
 {
-    public abstract class BaseEntity : IEntity
+    public abstract class MobEntity : IMobEntity
     {
-        public BaseEntity() { }
+        public MobEntity() { }
 
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }

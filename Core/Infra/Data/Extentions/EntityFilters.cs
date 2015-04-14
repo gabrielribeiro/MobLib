@@ -86,7 +86,7 @@ namespace MobLib.Core.Infra.Data.Extentions
             PropertyInfo[] properties = typeof(T).GetProperties();
 
             //recover all properties from entity interface;
-            var names = typeof(IEntity).GetProperties().Select(x => x.Name);
+            var names = typeof(IMobEntity).GetProperties().Select(x => x.Name);
 
             //remove properties from interface because they are all virtual 
             properties = properties.Where(x => !names.Contains(x.Name)).ToArray();

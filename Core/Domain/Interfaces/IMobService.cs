@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace MobLib.Core.Domain.Interfaces
 {
-    public interface IMobService<TEntity> : IDisposable where TEntity : IEntity
+    public interface IMobService<TEntity> : IDisposable where TEntity : IMobEntity
     {
         IMobRepository<TEntity> Repository { get; }
 
