@@ -139,7 +139,7 @@ namespace MobLib.Core.Infra.Data
                             if (i % batchSize == 0)
                             {
                                 if (this.AutoCommitEnabled)
-                                { 
+                                {
                                     Context.SaveChanges();
                                 }
                                 i = 0;
@@ -186,7 +186,6 @@ namespace MobLib.Core.Infra.Data
 
         public void Update(T entity)
         {
-            this.Entities.Attach(entity);
             db.Entry(entity).State = EntityState.Modified;
             db.Entry(entity).Property(t => t.CreatedDate).IsModified = false;
             db.Entry(entity).Property(t => t.UpdatedDate).CurrentValue = DateTime.UtcNow;
@@ -228,19 +227,21 @@ namespace MobLib.Core.Infra.Data
                 throw new ArgumentNullException("context", "The context can't be null");
             }
 
-            if (context.Database.Connection.State == System.Data.ConnectionState.Broken
-                || context.Database.Connection.State == System.Data.ConnectionState.Closed)
+
+            try
             {
-                try
+                if (context.Database.Connection.State == System.Data.ConnectionState.Broken
+                    || context.Database.Connection.State == System.Data.ConnectionState.Closed)
                 {
                     context.Database.Connection.Open();
                 }
-                catch (Exception ex)
-                {
-
-                    throw new InvalidOperationException("It's not possible to connect to the server", ex);
-                }
             }
+            catch (Exception ex)
+            {
+
+                throw new InvalidOperationException("It's not possible to connect to the server", ex);
+            }
+
 
             entitySet = context.Set<T>();
             if (entitySet == null)
@@ -251,7 +252,7 @@ namespace MobLib.Core.Infra.Data
             db = context;
         }
 
-        public void Commit() 
+        public void Commit()
         {
             this.Context.SaveChanges();
         }

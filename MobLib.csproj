@@ -75,6 +75,7 @@
     <Compile Include="Core\Domain\Interfaces\IMobEntity.cs" />
     <Compile Include="Core\Domain\Interfaces\IMobRepository.cs" />
     <Compile Include="Core\Domain\Interfaces\IMobService.cs" />
+    <Compile Include="Core\Infra\Data\ContextResolver.cs" />
     <Compile Include="Core\Infra\Data\MobRepository.cs" />
     <Compile Include="Core\Infra\Data\Extentions\EntityFilters.cs" />
     <Compile Include="Core\Infra\Data\MobDbContext.cs" />
