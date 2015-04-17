@@ -27,7 +27,7 @@ namespace MobLib.Core.Infra.Data
             //defines that all columns in BaseEntity is not null
             modelBuilder.Properties<int>().Where(d => d.Name == "Id").Configure(d => d.IsRequired());
             modelBuilder.Properties<DateTime>().Where(d => d.Name == "CreatedDate").Configure(d => d.IsRequired());
-            modelBuilder.Properties<DateTime>().Where(d => d.Name == "CreatedDate").Configure(d => d.IsRequired());
+            modelBuilder.Properties<DateTime>().Where(d => d.Name == "UpdatedDate").Configure(d => d.IsRequired());
             modelBuilder.Properties<bool>().Where(x => x.Name == "Active").Configure(b => b.IsRequired());
 
 
