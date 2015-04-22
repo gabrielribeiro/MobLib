@@ -103,7 +103,15 @@ namespace MobLib.Core.Infra.Data
             this.Entities.Add(entity);
             if (this.AutoCommitEnabled)
             {
-                db.SaveChanges();
+                try
+                {
+                    db.SaveChanges();
+
+                }
+                catch (Exception ex)
+                {
+                    throw ex;
+                }
             }
         }
 
