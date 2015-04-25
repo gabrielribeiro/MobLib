@@ -1,10 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace MobLib.Core.Domain.Exceptions
+namespace MobLib.Exceptions
 {
     public class MobException : Exception
     {
