@@ -146,7 +146,7 @@ namespace MobLib.Core.Services
         }
         #endregion
 
-        public void Dispose()
+        public virtual void Dispose()
         {
             //in case of the property been overrided
             if (this.repository.GetType().FullName != this.Repository.GetType().FullName)
