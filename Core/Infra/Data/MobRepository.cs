@@ -129,8 +129,7 @@ namespace MobLib.Core.Infra.Data
                     if (batchSize <= 0)
                     {
                         // insert all in one step
-                        entities.Each(x => this.Entities.Add(x));
-                        Context.SaveChanges();
+                        entities.Each(x => this.Insert(x));
                     }
                     else
                     {
@@ -138,11 +137,7 @@ namespace MobLib.Core.Infra.Data
                         bool saved = false;
                         foreach (var entity in entities)
                         {
-                            entity.CreatedDate = DateTime.UtcNow;
-                            entity.UpdatedDate = DateTime.UtcNow;
-                            entity.Active = true;
-
-                            this.Entities.Add(entity);
+                            this.Insert(entity);
                             saved = false;
                             if (i % batchSize == 0)
                             {

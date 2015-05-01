@@ -15,7 +15,7 @@ namespace MobLib.Extensions
 
             foreach (var ms in modelState.ToArray())
             {
-                if (ms.Key.Contains(expressionText + "."))
+                if (ms.Key.Contains( "."+ expressionText ))
                 {
                     modelState.Remove(ms);
                 }
