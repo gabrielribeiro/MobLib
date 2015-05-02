@@ -1,5 +1,5 @@
 ﻿using EntityFramework.Extensions;
-using MobLib.Core.Domain.Interfaces;
+using MobLib.Core.Domain.Contracts;
 using MobLib.Core.Infra.Data.Extentions;
 using MobLib.Extensions;
 using System;

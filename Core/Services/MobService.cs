@@ -1,4 +1,4 @@
-﻿using MobLib.Core.Domain.Interfaces;
+﻿using MobLib.Core.Domain.Contracts;
 using MobLib.Core.Infra.Data;
 using System;
 using System.Collections.Generic;

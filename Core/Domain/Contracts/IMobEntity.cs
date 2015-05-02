@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace MobLib.Core.Domain.Interfaces
+namespace MobLib.Core.Domain.Contracts
 {
     public interface IMobEntity
     {
