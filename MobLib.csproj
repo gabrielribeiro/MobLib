@@ -100,9 +100,9 @@
   <ItemGroup>
     <Compile Include="Core\Domain\Entities\MobEntity.cs" />
     <Compile Include="Exceptions\MobException.cs" />
-    <Compile Include="Core\Domain\Interfaces\IMobEntity.cs" />
-    <Compile Include="Core\Domain\Interfaces\IMobRepository.cs" />
-    <Compile Include="Core\Domain\Interfaces\IMobService.cs" />
+    <Compile Include="Core\Domain\Contracts\IMobEntity.cs" />
+    <Compile Include="Core\Domain\Contracts\IMobRepository.cs" />
+    <Compile Include="Core\Domain\Contracts\IMobService.cs" />
     <Compile Include="Core\Infra\Data\ContextResolver.cs" />
     <Compile Include="Core\Infra\Data\MobRepository.cs" />
     <Compile Include="Core\Infra\Data\Extentions\EntityFilters.cs" />
