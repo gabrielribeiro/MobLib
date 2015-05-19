@@ -1,21 +1,47 @@
-﻿using Autofac.Integration.WebApi;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Web.Mvc;
+﻿using Autofac;
+using Autofac.Integration.WebApi;
 using Http = System.Web.Http;
 
 namespace MobLib.Core.Infra.Dependency
 {
     public class WebApiDependencyResolver : MobDependencyResolver
     {
+        private IContainer container;
+
+        public WebApiDependencyResolver()
+            : base(true)
+        {
+
+        }
+
+        public override ILifetimeScope Scope
+        {
+            get
+            {
+                ILifetimeScope scope = null;
+                try
+                {
+                    scope = Http.GlobalConfiguration.Configuration.DependencyResolver.GetRequestLifetimeScope();
+                }
+                catch { }
+
+                if (scope == null)
+                {
+                    // really hackisch. But strange things are going on ?? :-)
+                    scope = container.BeginLifetimeScope("AutofacWebRequest");
+                }
+
+                return scope ?? container;
+            }/  
+        }
+
         public override void Initialize()
         {
             var config = Http.GlobalConfiguration.Configuration;
-            var container = this.CreateContainer();
+            this.container = this.CreateContainer();
 
-            config.DependencyResolver = new AutofacWebApiDependencyResolver(container);
+            config.DependencyResolver = new AutofacWebApiDependencyResolver(this.container);
+        }
+
     }
 }

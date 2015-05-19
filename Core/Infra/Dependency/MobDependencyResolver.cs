@@ -1,15 +1,15 @@
 ﻿using Autofac;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
+using MobLib.Extensions;
 
 namespace MobLib.Core.Infra.Dependency
 {
     public abstract class MobDependencyResolver : IDependencyResolver
     {
+        public abstract ILifetimeScope Scope { get; }
+
+        public abstract void Initialize();
+
+
         public MobDependencyResolver(bool initialize)
         {
             if (initialize)
@@ -40,6 +40,15 @@ namespace MobLib.Core.Infra.Dependency
             return container;
         }
 
-        public abstract void Initialize();
+
+        public virtual T Resolve<T>(string name = null) where T : class
+        {
+            if (!name.IsNullOrWhiteSpace())
+            {
+                return Scope.ResolveNamed<T>(name);
+            }
+            return Scope.Resolve<T>();
+        }
+
     }
 }
