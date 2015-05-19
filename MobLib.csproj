@@ -33,6 +33,9 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Autofac">
+      <HintPath>packages\Autofac.3.5.2\lib\net40\Autofac.dll</HintPath>
+    </Reference>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
@@ -99,6 +102,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Core\Domain\Entities\MobEntity.cs" />
+    <Compile Include="Core\Infra\Dependency\AutofacLifetimeScopeProvider.cs" />
+    <Compile Include="Core\Infra\Dependency\DependencyContext.cs" />
+    <Compile Include="Core\Infra\Dependency\IDependencyRegistrator.cs" />
+    <Compile Include="Core\Infra\Dependency\IDependencyResolver.cs" />
+    <Compile Include="Core\Infra\Dependency\ITypeFinder.cs" />
+    <Compile Include="Core\Infra\Dependency\MobTypeFinder.cs" />
+    <Compile Include="Core\Infra\Dependency\TypeFinderExtentions.cs" />
     <Compile Include="Exceptions\MobException.cs" />
     <Compile Include="Core\Domain\Contracts\IMobEntity.cs" />
     <Compile Include="Core\Domain\Contracts\IMobRepository.cs" />
@@ -127,9 +137,7 @@
     <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Core\Infra\Dependency\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
