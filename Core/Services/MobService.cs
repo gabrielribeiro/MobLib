@@ -15,20 +15,9 @@ namespace MobLib.Core.Services
 
         #region .::Ctor::.
 
-        public MobService(MobDbContext dbContext)
-            : this(CreateRepository(dbContext))
-        {
-        }
-
         public MobService(IMobRepository<T> mobRepository)
         {
             repository = mobRepository;
-        }
-
-
-        private static IMobRepository<T> CreateRepository(MobDbContext dbContext)
-        {
-            return new MobRepository<T>(dbContext);
         }
 
         #endregion
