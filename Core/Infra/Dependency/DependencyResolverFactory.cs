@@ -1,10 +1,12 @@
 ﻿using System;
+using System.Runtime.CompilerServices;
 
 namespace MobLib.Core.Infra.Dependency
 {
     public static class DependencyResolverFactory
     {
-        public static IDependencyResolver Create(ResolverType type)
+        [MethodImpl(MethodImplOptions.Synchronized)]
+        public static IDependencyResolver Current(ResolverType type)
         {
             IDependencyResolver resolver = null;
             switch (type)
