@@ -184,7 +184,7 @@ namespace MobLib.Core.Infra.Data
         /// <remarks>this operation its not in Change tracker and will be executed directly on database</remarks>
         public void Update(System.Linq.Expressions.Expression<Func<T, bool>> filterExpression, System.Linq.Expressions.Expression<Func<T, T>> updateExpression)
         {
-            this.Entities.Update(filterExpression, updateExpression);
+            this.Entities.Where(filterExpression).Update(updateExpression);
         }
 
         public void Update(T entity)
