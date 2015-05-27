@@ -32,7 +32,7 @@ namespace MobLib.Core.Infra.Dependency
                 }
 
                 return scope ?? container;
-            }/  
+            }
         }
 
         public override void Initialize()
