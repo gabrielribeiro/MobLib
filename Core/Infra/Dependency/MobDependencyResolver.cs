@@ -1,5 +1,6 @@
 ﻿using Autofac;
 using MobLib.Extensions;
+using System.Linq;
 
 namespace MobLib.Core.Infra.Dependency
 {
@@ -26,10 +27,9 @@ namespace MobLib.Core.Infra.Dependency
             builder = new ContainerBuilder();
             builder.RegisterInstance(this).As<IDependencyResolver>().SingleInstance();
             builder.RegisterType<MobTypeFinder>().As<ITypeFinder>().SingleInstance();
-            builder.Update(container);
 
-            var typeFinder = container.Resolve<ITypeFinder>();
-            var registrators = typeFinder.GetInstancesOf<IDependencyRegistrator>();
+            var typeFinder = new MobTypeFinder();
+            var registrators = typeFinder.GetInstancesOf<IDependencyRegistrator>().OrderBy(x=> x.Order);
 
             foreach (var registrator in registrators)
             {
