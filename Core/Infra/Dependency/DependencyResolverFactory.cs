@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 
 namespace MobLib.Core.Infra.Dependency
@@ -6,15 +7,22 @@ namespace MobLib.Core.Infra.Dependency
     public static class DependencyResolverFactory
     {
         [MethodImpl(MethodImplOptions.Synchronized)]
-        public static IDependencyResolver Current(ResolverType type)
+        public static IDependencyResolver Create(ResolverType type, IEnumerable<IDependencyRegistrator> registrators = null)
         {
             IDependencyResolver resolver = null;
             switch (type)
             {
                 case ResolverType.WebApi:
-                    if (Singleton<WebApiDependencyResolver>.Instance == null)
+                    if (registrators != null)
                     {
-                        Singleton<WebApiDependencyResolver>.Instance = new WebApiDependencyResolver();
+                        Singleton<WebApiDependencyResolver>.Instance = new WebApiDependencyResolver(registrators);
+                    }
+                    else
+                    {
+                        if (Singleton<WebApiDependencyResolver>.Instance == null)
+                        {
+                            Singleton<WebApiDependencyResolver>.Instance = new WebApiDependencyResolver();
+                        }
                     }
                     resolver = Singleton<WebApiDependencyResolver>.Instance;
                     break;

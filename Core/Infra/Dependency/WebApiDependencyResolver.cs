@@ -1,5 +1,6 @@
 ﻿using Autofac;
 using Autofac.Integration.WebApi;
+using System.Collections.Generic;
 using Http = System.Web.Http;
 
 namespace MobLib.Core.Infra.Dependency
@@ -10,6 +11,12 @@ namespace MobLib.Core.Infra.Dependency
 
         public WebApiDependencyResolver()
             : base(true)
+        {
+
+        }
+
+        public WebApiDependencyResolver(IEnumerable<IDependencyRegistrator> registrators)
+            : base(true, registrators)
         {
 
         }

@@ -1,5 +1,6 @@
 ﻿using Autofac;
 using MobLib.Extensions;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace MobLib.Core.Infra.Dependency
@@ -7,6 +8,8 @@ namespace MobLib.Core.Infra.Dependency
     public abstract class MobDependencyResolver : IDependencyResolver
     {
         public abstract ILifetimeScope Scope { get; }
+
+        public IEnumerable<IDependencyRegistrator> Registrators { get; set; }
 
         public abstract void Initialize();
 
@@ -19,6 +22,12 @@ namespace MobLib.Core.Infra.Dependency
             }
         }
 
+        public MobDependencyResolver(bool initalize, IEnumerable<IDependencyRegistrator> registrators)
+            : this(initalize)
+        {
+            this.Registrators = registrators;
+        }
+
         protected virtual IContainer CreateContainer()
         {
             var builder = new ContainerBuilder();
@@ -29,9 +38,13 @@ namespace MobLib.Core.Infra.Dependency
             builder.RegisterType<MobTypeFinder>().As<ITypeFinder>().SingleInstance();
 
             var typeFinder = new MobTypeFinder();
-            var registrators = typeFinder.GetInstancesOf<IDependencyRegistrator>().OrderBy(x=> x.Order);
 
-            foreach (var registrator in registrators)
+            if (Registrators == null || !Registrators.Any())
+            {
+                Registrators = typeFinder.GetInstancesOf<IDependencyRegistrator>().OrderBy(x => x.Order);
+            }
+
+            foreach (var registrator in Registrators)
             {
                 registrator.Register(builder, typeFinder);
             }
