@@ -15,7 +15,7 @@ namespace MobLib.Core.Infra.Data
     {
         #region .::Fields::.
 
-        private MobDbContext db;
+        protected MobDbContext db;
         private DbSet<T> entitySet;
 
         #endregion
