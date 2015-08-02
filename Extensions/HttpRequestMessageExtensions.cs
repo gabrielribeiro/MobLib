@@ -105,5 +105,16 @@ namespace MobLib.Extensions
         {
             return new HttpResponseException(request.CreateErrorResponse(HttpStatusCode.NotImplemented, methodName + " not implemented."));
         }
+
+
+        /// <summary>
+        /// Initializes a new instance of HttpResponseException that represents an error message for status code 200
+        /// </summary>
+        /// <param name="request">HTTP request message</param>
+        /// <returns>Returns an exception to break the executing action with correct status code.</returns>
+        public static HttpResponseException OK(this HttpRequestMessage request)
+        {
+            return new HttpResponseException(request.CreateResponse(HttpStatusCode.OK, "Result Ok."));
+        }
     }
 }
