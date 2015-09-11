@@ -73,6 +73,19 @@ namespace MobLib.Extensions
             return new HttpResponseException(request.CreateErrorResponse(HttpStatusCode.Unauthorized, "Go away!"));
         }
 
+
+        /// <summary>
+        /// Initializes a new instance of HttpResponseException that represents an error message for status code 404
+        /// </summary>
+        /// <param name="request">HTTP request message</param>
+        /// <param name="message"></param>
+        /// <returns>Returns an exception to break the executing action with correct status code.</returns>
+        public static HttpResponseException NotFound(this HttpRequestMessage request, string message)
+        {
+            return new HttpResponseException(request.CreateErrorResponse(HttpStatusCode.NotFound, message));
+        }
+
+
         /// <summary>
         /// Initializes a new instance of HttpResponseException that represents an error message for status code 409
         /// </summary>
