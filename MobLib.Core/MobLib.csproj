@@ -119,6 +119,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Core\Domain\Entities\MobEntity.cs" />
+    <Compile Include="Core\Infra\Data\IDataModeler.cs" />
     <Compile Include="Core\Infra\Dependency\DependencyResolverFactory.cs" />
     <Compile Include="Core\Infra\Dependency\IDependencyRegistrator.cs" />
     <Compile Include="Core\Infra\Dependency\IDependencyResolver.cs" />

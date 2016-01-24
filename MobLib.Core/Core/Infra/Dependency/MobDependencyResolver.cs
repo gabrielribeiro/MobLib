@@ -53,8 +53,12 @@ namespace MobLib.Core.Infra.Dependency
             return container;
         }
 
+        public virtual T Resolve<T>() where T : class
+        {
+            return this.Resolve<T>(null);
+        }
 
-        public virtual T Resolve<T>(string name = null) where T : class
+        public virtual T Resolve<T>(string name) where T : class
         {
             if (!name.IsNullOrWhiteSpace())
             {
@@ -62,6 +66,5 @@ namespace MobLib.Core.Infra.Dependency
             }
             return Scope.Resolve<T>();
         }
-
     }
 }

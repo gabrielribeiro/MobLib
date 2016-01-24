@@ -31,8 +31,19 @@ namespace MobLib.Core.Infra.Dependency
                 default:
                     throw new NotSupportedException("The type informed it's not supported");
             }
-
+           
+            Singleton<IDependencyResolver>.Instance = resolver;
             return resolver;
+        }
+
+        [MethodImpl(MethodImplOptions.Synchronized)]
+        public static IDependencyResolver GetCurrentResolver() 
+        {
+            if (Singleton<IDependencyResolver>.Instance == null) 
+            {
+                throw new NullReferenceException("There is no dependency resolver registrated");
+            }
+            return Singleton<IDependencyResolver>.Instance;
         }
     }
 
