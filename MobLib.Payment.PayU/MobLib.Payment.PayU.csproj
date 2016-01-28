@@ -58,6 +58,10 @@
       <HintPath>..\packages\Newtonsoft.Json.6.0.4\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="RestSharp, Version=105.2.3.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\RestSharp.105.2.3\lib\net45\RestSharp.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
@@ -102,12 +106,25 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Domain\Contracts\IPayUContext.cs" />
-    <Compile Include="Domain\Entities\IPayUAddress.cs" />
-    <Compile Include="Domain\Entities\IPayUCustomer.cs" />
-    <Compile Include="Domain\Entities\IPayUToken.cs" />
+    <Compile Include="Domain\Entities\AdditionalValue.cs" />
+    <Compile Include="Domain\Entities\Address.cs" />
+    <Compile Include="Domain\Entities\Country.cs" />
+    <Compile Include="Domain\Entities\CreditCardType.cs" />
+    <Compile Include="Domain\Entities\Currency.cs" />
+    <Compile Include="Domain\Entities\CurrencyCode.cs" />
+    <Compile Include="Domain\Entities\Customer.cs" />
+    <Compile Include="Domain\Entities\CreditCardToken.cs" />
+    <Compile Include="Domain\Entities\Plan.cs" />
+    <Compile Include="Domain\Entities\PlanInterval.cs" />
+    <Compile Include="Domain\Entities\Subscription.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\MobLib.Core\MobLib.csproj">
+      <Project>{ada072f9-77eb-46aa-8104-460d364e1710}</Project>
+      <Name>MobLib</Name>
+    </ProjectReference>
+  </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
     <None Include="packages.config" />
