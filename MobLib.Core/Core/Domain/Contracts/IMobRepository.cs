@@ -8,7 +8,7 @@ namespace MobLib.Core.Domain.Contracts
     public interface IMobRepository<TEntity> : IDisposable where TEntity : IMobEntity
     {
         #region .::Properties::.
-        MobDbContext Context { get; }
+        IMobContext Context { get; }
         bool AutoCommitEnabled { get; set; }
         #endregion
 

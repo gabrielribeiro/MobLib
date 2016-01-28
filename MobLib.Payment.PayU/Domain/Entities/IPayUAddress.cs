@@ -1,7 +1,6 @@
 ﻿namespace MobLib.Payment.PayU.Domain.Entities
 {
-    public interface IPayUCustomer
+    public interface IPayUAddress
     {
-
     }
 }

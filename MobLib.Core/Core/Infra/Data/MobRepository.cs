@@ -15,7 +15,7 @@ namespace MobLib.Core.Infra.Data
     {
         #region .::Fields::.
 
-        protected MobDbContext db;
+        protected IMobContext db;
         private DbSet<T> entitySet;
 
         #endregion
@@ -23,7 +23,7 @@ namespace MobLib.Core.Infra.Data
         #region .::Properties::.
 
         public bool AutoCommitEnabled { get; set; }
-        public MobDbContext Context
+        public IMobContext Context
         {
             get
             {
@@ -46,10 +46,10 @@ namespace MobLib.Core.Infra.Data
 
         #region .::Ctor::.
 
-        public MobRepository(MobDbContext context)
+        public MobRepository(IMobContext context)
         {
             this.AutoCommitEnabled = true;
-            SetOrChangeContext(context);
+            this.SetOrChangeContext(context);
         }
 
         #endregion
@@ -223,13 +223,12 @@ namespace MobLib.Core.Infra.Data
 
         #region .::Helpers::.
 
-        protected void SetOrChangeContext(MobDbContext context)
+        protected void SetOrChangeContext(IMobContext context)
         {
             if (context == null)
             {
                 throw new ArgumentNullException("context", "The context can't be null");
             }
-
 
             try
             {
@@ -252,7 +251,7 @@ namespace MobLib.Core.Infra.Data
                 throw new ArgumentNullException("Entities", "Set for Entity T not located in the DbContext");
             }
 
-            db = context;
+            this.db = context;
         }
 
         public void Commit()

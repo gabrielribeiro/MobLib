@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace MobLib.Core.Infra.Data
 {
-    public class MobDbContext : DbContext
+    public class MobDbContext : DbContext, IMobContext
     {
         public MobDbContext(string nameOrConnectionString)
             : base(nameOrConnectionString)
