@@ -9,7 +9,6 @@
         public string City { get; set; }
         public int CountryId { get; set; }
         public string State { get; set; }
-
         public virtual Country Country { get; set; }
     }
 }

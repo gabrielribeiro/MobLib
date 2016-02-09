@@ -2,6 +2,7 @@
 
 namespace MobLib.Exceptions
 {
+    [Serializable]
     public class MobException : Exception
     {
         public MobException()

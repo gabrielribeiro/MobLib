@@ -108,9 +108,9 @@ namespace MobLib.Core.Infra.Data
                     db.SaveChanges();
 
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
-                    throw ex;
+                    throw;
                 }
             }
         }
@@ -128,8 +128,8 @@ namespace MobLib.Core.Infra.Data
                 {
                     if (batchSize <= 0)
                     {
-                        // insert all in one step
-                        entities.Each(x => this.Insert(x));
+                        this.Entities.AddRange(entities);
+                        this.Context.SaveChanges();
                     }
                     else
                     {
@@ -163,7 +163,7 @@ namespace MobLib.Core.Infra.Data
             }
             catch (DbEntityValidationException ex)
             {
-                throw ex;
+                throw;
             }
         }
         /// <summary>

@@ -23,7 +23,8 @@ namespace MobLib.Crypt
             //string outStr = null;                       // Encrypted string to return
             byte[] outBytes = null;                       // Encrypted byte array to return
             RijndaelManaged aesAlg = null;              // RijndaelManaged object used to encrypt the data.
-
+            CryptoStream csEncrypt = null;
+            StreamWriter swEncrypt = null;
             try
             {
                 // generate the key from the shared secret and the salt
@@ -42,14 +43,13 @@ namespace MobLib.Crypt
                     // prepend the IV
                     msEncrypt.Write(BitConverter.GetBytes(aesAlg.IV.Length), 0, sizeof(int));
                     msEncrypt.Write(aesAlg.IV, 0, aesAlg.IV.Length);
-                    using (CryptoStream csEncrypt = new CryptoStream(msEncrypt, encryptor, CryptoStreamMode.Write))
-                    {
-                        using (StreamWriter swEncrypt = new StreamWriter(csEncrypt))
-                        {
-                            //Write all data to the stream.
-                            swEncrypt.Write(plainText);
-                        }
-                    }
+                    csEncrypt = new CryptoStream(msEncrypt, encryptor, CryptoStreamMode.Write);
+
+                    swEncrypt = new StreamWriter(csEncrypt);
+
+                    //Write all data to the stream.
+                    swEncrypt.Write(plainText);
+
                     //outStr = Convert.ToBase64String(msEncrypt.ToArray());
                     outBytes = msEncrypt.ToArray();
                 }
@@ -59,6 +59,12 @@ namespace MobLib.Crypt
                 // Clear the RijndaelManaged object.
                 if (aesAlg != null)
                     aesAlg.Clear();
+
+                if (csEncrypt != null)
+                    csEncrypt.Dispose();
+
+                if (swEncrypt != null)
+                    swEncrypt.Dispose();
             }
 
             // Return the encrypted bytes from the memory stream.
@@ -96,7 +102,8 @@ namespace MobLib.Crypt
             // Declare the string used to hold
             // the decrypted text.
             string plaintext = null;
-
+            CryptoStream csDecrypt = null;
+            StreamReader srDecrypt = null;
             try
             {
                 // generate the key from the shared secret and the salt
@@ -113,14 +120,13 @@ namespace MobLib.Crypt
                     aesAlg.IV = ReadByteArray(msDecrypt);
                     // Create a decrytor to perform the stream transform.
                     ICryptoTransform decryptor = aesAlg.CreateDecryptor(aesAlg.Key, aesAlg.IV);
-                    using (CryptoStream csDecrypt = new CryptoStream(msDecrypt, decryptor, CryptoStreamMode.Read))
-                    {
-                        using (StreamReader srDecrypt = new StreamReader(csDecrypt))
+                    csDecrypt = new CryptoStream(msDecrypt, decryptor, CryptoStreamMode.Read);
 
-                            // Read the decrypted bytes from the decrypting stream
-                            // and place them in a string.
-                            plaintext = srDecrypt.ReadToEnd();
-                    }
+                    srDecrypt = new StreamReader(csDecrypt);
+
+                    // Read the decrypted bytes from the decrypting stream
+                    // and place them in a string.
+                    plaintext = srDecrypt.ReadToEnd();
                 }
             }
             finally
@@ -128,6 +134,12 @@ namespace MobLib.Crypt
                 // Clear the RijndaelManaged object.
                 if (aesAlg != null)
                     aesAlg.Clear();
+
+                if (csDecrypt != null)
+                    csDecrypt.Dispose();
+
+                if (srDecrypt != null)
+                    srDecrypt.Dispose();
             }
 
             return plaintext;
@@ -149,21 +161,5 @@ namespace MobLib.Crypt
 
             return buffer;
         }
-
-        //public static byte[] GetBytes(this string str)
-        //{
-        //    var bytes = new byte[str.Length * sizeof(char)];
-        //    Buffer.BlockCopy(str.ToCharArray(), 0, bytes, 0, bytes.Length);
-
-        //    return bytes;
-        //}
-
-        //public static string GetString(this byte[] bytes)
-        //{
-        //    var chars = new char[bytes.Length / sizeof(char)];
-        //    Buffer.BlockCopy(bytes, 0, chars, 0, bytes.Length);
-
-        //    return new string(chars);
-        //}
     }
 }

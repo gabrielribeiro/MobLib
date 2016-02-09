@@ -13,7 +13,6 @@ namespace MobLib.Core.Infra.Dependency
 
         public abstract void Initialize();
 
-
         public MobDependencyResolver(bool initialize)
         {
             if (initialize)

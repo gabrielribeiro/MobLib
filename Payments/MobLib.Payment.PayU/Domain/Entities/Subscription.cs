@@ -8,6 +8,7 @@ namespace MobLib.Payment.PayU.Domain.Entities
         public string SubscriptionPayUId { get; set; }
         public int Quantity { get; set; }
         public int Installments { get; set; }
+        public int TrialDays { get; set; }
         public int CustomerId { get; set; }
         public int PlanId { get; set; }
         public DateTime? StartPeriod { get; set; }

@@ -5,7 +5,8 @@ namespace MobLib.WebRequest
 {
     public class JsonWebRequest : BaseWebRequest
     {
-        public JsonWebRequest(string url) : base(url)
+        public JsonWebRequest(string url)
+            : base(url)
         {
         }
 
@@ -18,16 +19,13 @@ namespace MobLib.WebRequest
                 string json = streamReader.ReadToEnd();
 
                 deserializedObj = JsonConvert.DeserializeObject<T>(json);
-
-                streamReader.Close();
             }
 
             return deserializedObj;
         }
 
-        public override void Dispose()
+        public override sealed void Dispose()
         {
-            
         }
     }
 }
