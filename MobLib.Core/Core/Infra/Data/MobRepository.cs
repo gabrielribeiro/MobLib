@@ -163,6 +163,7 @@ namespace MobLib.Core.Infra.Data
             }
             catch (DbEntityValidationException ex)
             {
+                ex.ToString();
                 throw;
             }
         }

@@ -13,7 +13,9 @@ namespace MobLib.Payment.PayU.Domain.Entities
         public string Number { get; set; }
         public DateTime ExpirationDate { get; set; }
         public Address Address { get; set; }
+        public int CountryId { get; set; }
 
+        public virtual Country Country { get; set; }
         public virtual CreditCardType CreditCardType { get; set; }
         public virtual Customer Customer { get; set; }
     }

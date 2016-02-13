@@ -110,6 +110,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Data\CountryMap.cs" />
+    <Compile Include="Data\CreditCardTokenMap.cs" />
+    <Compile Include="Data\CreditCardTypeMap.cs" />
+    <Compile Include="Data\PayUDataSeeder.cs" />
+    <Compile Include="Data\SubscriptionMap.cs" />
+    <Compile Include="Data\PlanIntervalMap.cs" />
+    <Compile Include="Data\PlanMap.cs" />
+    <Compile Include="Data\CurrencyMap.cs" />
+    <Compile Include="Data\AdditionalValueMap.cs" />
+    <Compile Include="Data\CustomerMap.cs" />
     <Compile Include="Data\PayUDataModeler.cs" />
     <Compile Include="Domain\Contracts\IPayUContext.cs" />
     <Compile Include="Domain\Entities\AdditionalValue.cs" />

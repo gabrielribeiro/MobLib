@@ -124,6 +124,7 @@
   <ItemGroup>
     <Compile Include="Core\Domain\Entities\MobEntity.cs" />
     <Compile Include="Core\Infra\Data\IDataModeler.cs" />
+    <Compile Include="Core\Infra\Data\IDataSeeder.cs" />
     <Compile Include="Core\Infra\Data\IMobContext.cs" />
     <Compile Include="Core\Infra\Dependency\DependencyResolverFactory.cs" />
     <Compile Include="Core\Infra\Dependency\IDependencyRegistrator.cs" />
@@ -149,6 +150,7 @@
     <Compile Include="Extensions\ModelStateExtentions.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="GlobalSuppressions.cs" />
+    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="WebRequest\BaseWebRequest.cs" />
     <Compile Include="Configuration.cs" />
     <Compile Include="Crypt\AESCrypter.cs" />

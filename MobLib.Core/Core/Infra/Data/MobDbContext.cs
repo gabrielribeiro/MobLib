@@ -32,9 +32,7 @@ namespace MobLib.Core.Infra.Data
             modelBuilder.Properties<DateTime>().Where(d => d.Name == "UpdatedDate").Configure(d => d.IsRequired());
             modelBuilder.Properties<bool>().Where(x => x.Name == "Active").Configure(b => b.IsRequired());
 
-            //gets all instances of IDataModelers in the assembly
-            var dependencyResolver =Dependency.DependencyResolverFactory.GetCurrentResolver();
-            ITypeFinder typeFinder = dependencyResolver.Resolve<ITypeFinder>();
+            var typeFinder = new MobTypeFinder();
             var modelers = typeFinder.GetInstancesOf<IDataModeler>().OrderBy(x => x.Order);
 
             foreach (var modeler in modelers)

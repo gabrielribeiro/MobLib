@@ -7,8 +7,6 @@
         public string Line3 { get; set; }
         public string PostalCode { get; set; }
         public string City { get; set; }
-        public int CountryId { get; set; }
         public string State { get; set; }
-        public virtual Country Country { get; set; }
     }
 }
