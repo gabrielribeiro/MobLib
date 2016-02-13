@@ -150,7 +150,6 @@
     <Compile Include="Extensions\ModelStateExtentions.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="GlobalSuppressions.cs" />
-    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="WebRequest\BaseWebRequest.cs" />
     <Compile Include="Configuration.cs" />
     <Compile Include="Crypt\AESCrypter.cs" />

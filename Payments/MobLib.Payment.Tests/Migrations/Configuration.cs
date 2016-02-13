@@ -1,5 +1,6 @@
 namespace MobLib.Payment.Tests.Migrations
 {
+    using MobLib.Payment.PayU.Data;
     using System;
     using System.Data.Entity;
     using System.Data.Entity.Migrations;
@@ -14,18 +15,9 @@ namespace MobLib.Payment.Tests.Migrations
 
         protected override void Seed(MobLib.Payment.Tests.TestContext.PayUContext context)
         {
-            //  This method will be called after migrating to the latest version.
+            var seeder = new PayUDataSeeder();
 
-            //  You can use the DbSet<T>.AddOrUpdate() helper extension method 
-            //  to avoid creating duplicate seed data. E.g.
-            //
-            //    context.People.AddOrUpdate(
-            //      p => p.FullName,
-            //      new Person { FullName = "Andrew Peters" },
-            //      new Person { FullName = "Brice Lambson" },
-            //      new Person { FullName = "Rowan Miller" }
-            //    );
-            //
+            seeder.SeedData(context);
         }
     }
 }
