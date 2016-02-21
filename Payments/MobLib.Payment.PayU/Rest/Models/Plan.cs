@@ -1,32 +1,32 @@
-﻿using RestSharp.Serializers;
+﻿using Newtonsoft.Json;
 using System.Collections.Generic;
 
 namespace MobLib.Payment.PayU.Rest.Models
 {
     internal class Plan
     {
-        [SerializeAs(Name = "id")]
-        public string PlanId { get; set; }
-        [SerializeAs(Name = "accountId")]
-        public int AccountId { get; set; }
-        [SerializeAs(Name = "planCode")]
+        [JsonProperty("id")]
+        public string id { get; set; }
+        [JsonProperty("accountId")]
+        public string AccountId { get; set; }
+        [JsonProperty("planCode")]
         public string PlanCode { get; set; }
-        [SerializeAs(Name = "description")]
+        [JsonProperty("description")]
         public string Description { get; set; }
-        [SerializeAs(Name = "interval")]
+        [JsonProperty("interval")]
         public string Interval { get; set; }
-        [SerializeAs(Name = "intervalCount")]
+        [JsonProperty("intervalCount")]
         public int IntervalCount { get; set; }
-        [SerializeAs(Name = "maxPaymentsAllowed")]
+        [JsonProperty("maxPaymentsAllowed")]
         public int MaxPaymentsAllowed { get; set; }
-        [SerializeAs(Name = "maxPaymentAttempts")]
+        [JsonProperty("maxPaymentAttempts")]
         public int? MaxPendingPayments { get; set; }
-        [SerializeAs(Name = "paymentAttemptsDelay")]
+        [JsonProperty("paymentAttemptsDelay")]
         public int PaymentAttemptsDelay { get; set; }
-        [SerializeAs(Name = "trialDays")]
+        [JsonProperty("trialDays")]
         public int TrialDays { get; set; }
 
-        [SerializeAs(Name = "additionalValues")]
-        public virtual ICollection<AdditionalValue> AdditionalValues { get; set; }
+        [JsonProperty("additionalValues")]
+        public virtual List<AdditionalValue> AdditionalValues { get; set; }
     }
 }

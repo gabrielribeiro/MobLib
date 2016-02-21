@@ -12,12 +12,20 @@ namespace MobLib.Payment.PayU.Rest.Mapper
     {
         protected override void Configure()
         {
-
             this.CreateMap<Plan, Models.Plan>()
-               .ForMember(dest => dest.PlanId, conf => conf.MapFrom(src => src.PlanPayUId));
+               .ForMember(dest => dest.id, conf => conf.MapFrom(src => src.PlanPayUId))
+               .ForMember(dest => dest.Interval, conf => conf.MapFrom(src => src.PlanInterval.Code));
+
+            this.CreateMap<Models.Plan, Plan>()
+                .ForMember(dest => dest.PlanPayUId, conf => conf.MapFrom(src => src.id))
+               .ForMember(dest => dest.PlanInterval, conf => conf.MapFrom(src => new PlanInterval { Code = src.Interval }))
+               .ForMember(dest => dest.Id, conf => conf.Ignore());
 
             this.CreateMap<AdditionalValue, Models.AdditionalValue>()
                .ForMember(dest => dest.Currency, conf => conf.MapFrom(src => src.Currency.Code));
+
+            this.CreateMap<Models.AdditionalValue, AdditionalValue>()
+               .ForMember(dest => dest.Currency, conf => conf.MapFrom(src => new Currency { Code = src.Currency }));
         }
     }
 }

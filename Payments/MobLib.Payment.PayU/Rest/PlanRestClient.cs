@@ -3,12 +3,23 @@ using MobLib.Payment.PayU.Domain.Entities;
 using RestSharp;
 using System;
 using System.Threading.Tasks;
+using System.Net;
+using MobLib.Rest;
 
 namespace MobLib.Payment.PayU.Rest
 {
-    internal class PlanRestClient : BaseRestClient
+    public class PlanRestClient : BaseRestClient
     {
         public PlanRestClient() : base() { }
+
+        public Plan Get(string planCode)
+        {
+            var request = this.CreateJsonRequest(string.Format("/rest/v4.3/plans/{0}", planCode), Method.GET);
+
+            var response = this.ExecuteRequest<Models.Plan>(request);
+
+            return response.Data.Map<Models.Plan, Plan>();
+        }
 
         public Plan Post(Plan plan)
         {
@@ -19,12 +30,38 @@ namespace MobLib.Payment.PayU.Rest
 
             var planModel = plan.Map<Plan, Models.Plan>();
 
-            var request =this.CreateJsonRequest("rest/v4.3/plans", Method.POST);
+            var request = this.CreateJsonRequest("rest/v4.3/plans", Method.POST);
             request.AddBody(planModel);
 
-            this.restClient.ExecutePostTaskAsync(request);
+            var response = this.ExecuteRequest<Models.Plan>(request);
 
-            throw new NotImplementedException();
+            return response.Data.Map<Models.Plan, Plan>();
+        }
+
+        public Plan Put(Plan plan)
+        {
+            if (plan == null)
+            {
+                throw new ArgumentNullException("plan");
+            }
+
+            var planModel = plan.Map<Plan, Models.Plan>();
+
+            var request = this.CreateJsonRequest(string.Format("/rest/v4.3/plans/{0}", planModel.PlanCode), Method.POST);
+            request.AddBody(planModel);
+
+            var response = this.ExecuteRequest<Models.Plan>(request);
+
+            return response.Data.Map<Models.Plan, Plan>();
+        }
+
+        public bool Delete(string planCode)
+        {
+            var request = this.CreateJsonRequest(string.Format("/rest/v4.3/plans/{0}", planCode), Method.DELETE);
+
+            var response = this.ExecuteRequest(request);
+
+            return response.StatusCode == HttpStatusCode.OK;
         }
     }
 }

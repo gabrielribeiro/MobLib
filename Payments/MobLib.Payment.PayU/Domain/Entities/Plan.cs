@@ -12,7 +12,7 @@ namespace MobLib.Payment.PayU.Domain.Entities
         }
 
         public string PlanPayUId { get; set; }
-        public int AccountId { get; set; }
+        public string AccountId { get; set; }
         public string PlanCode { get; set; }
         public string Description { get; set; }
         public int IntervalId { get; set; }

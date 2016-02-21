@@ -64,6 +64,10 @@
       <HintPath>..\packages\Newtonsoft.Json.6.0.4\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="RestSharp, Version=105.2.3.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\RestSharp.105.2.3\lib\net451\RestSharp.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="SHA3, Version=0.9.2.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\SHA3.0.9.2\lib\net40\SHA3.dll</HintPath>
       <Private>True</Private>
@@ -150,6 +154,8 @@
     <Compile Include="Extensions\ModelStateExtentions.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="GlobalSuppressions.cs" />
+    <Compile Include="Rest\BaseRestClient.cs" />
+    <Compile Include="Rest\JsonSerializer.cs" />
     <Compile Include="WebRequest\BaseWebRequest.cs" />
     <Compile Include="Configuration.cs" />
     <Compile Include="Crypt\AESCrypter.cs" />

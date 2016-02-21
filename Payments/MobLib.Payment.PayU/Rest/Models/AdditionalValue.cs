@@ -1,14 +1,14 @@
-﻿using RestSharp.Serializers;
+﻿using Newtonsoft.Json;
 
 namespace MobLib.Payment.PayU.Rest.Models
 {
-    internal class AdditionalValue
+    public class AdditionalValue
     {
-        [SerializeAs(Name = "name")]
+        [JsonProperty("name")]
         public string Name { get; set; }
-        [SerializeAs(Name = "value")]
-        public decimal Value { get; set; }
-        [SerializeAs(Name = "currency")]
+        [JsonProperty("value")]
+        public decimal? Value { get; set; }
+        [JsonProperty("currency")]
         public string Currency { get; set; }
     }
 }
