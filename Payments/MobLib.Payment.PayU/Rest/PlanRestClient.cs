@@ -8,7 +8,9 @@ namespace MobLib.Payment.PayU.Rest
 {
     internal class PlanRestClient : BaseRestClient
     {
-        public Task<Plan> Post(Plan plan)
+        public PlanRestClient() : base() { }
+
+        public Plan Post(Plan plan)
         {
             if (plan == null)
             {
@@ -16,6 +18,12 @@ namespace MobLib.Payment.PayU.Rest
             }
 
             var planModel = plan.Map<Plan, Models.Plan>();
+
+            var request =this.CreateJsonRequest("rest/v4.3/plans", Method.POST);
+            request.AddBody(planModel);
+
+            this.restClient.ExecutePostTaskAsync(request);
+
             throw new NotImplementedException();
         }
     }

@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using MobLib.Payment.PayU.Domain.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,6 +12,12 @@ namespace MobLib.Payment.PayU.Rest.Mapper
     {
         protected override void Configure()
         {
+
+            this.CreateMap<Plan, Models.Plan>()
+               .ForMember(dest => dest.PlanId, conf => conf.MapFrom(src => src.PlanPayUId));
+
+            this.CreateMap<AdditionalValue, Models.AdditionalValue>()
+               .ForMember(dest => dest.Currency, conf => conf.MapFrom(src => src.Currency.Code));
         }
     }
 }
