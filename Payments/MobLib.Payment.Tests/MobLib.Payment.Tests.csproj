@@ -66,6 +66,7 @@
       <DependentUpon>201602131711453_Initial.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="CustomerRestClientTest.cs" />
     <Compile Include="PlanRestClientTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TestContext\PayUContext.cs" />

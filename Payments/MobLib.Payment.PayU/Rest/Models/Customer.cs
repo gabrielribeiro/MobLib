@@ -1,14 +1,15 @@
-﻿using RestSharp.Serializers;
+﻿using Newtonsoft.Json;
+using RestSharp.Serializers;
 
 namespace MobLib.Payment.PayU.Rest.Models
 {
     internal class Customer
     {
-        [SerializeAs(Name = "id")]
+        [JsonProperty("id")]
         public string CustomerPayUId { get; set; }
-        [SerializeAs(Name = "fullName")]
+        [JsonProperty("fullName")]
         public string FullName { get; set; }
-        [SerializeAs(Name = "email")]
+        [JsonProperty("email")]
         public string EmailAddress { get; set; }
     }
 }

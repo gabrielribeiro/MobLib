@@ -20,6 +20,8 @@
 using System.IO;
 using Newtonsoft.Json;
 using RestSharp.Serializers;
+using RestSharp.Deserializers;
+using RestSharp;
 
 namespace MobLib.Serializers.Serializers
 {
@@ -27,17 +29,17 @@ namespace MobLib.Serializers.Serializers
     /// Default JSON serializer for request bodies
     /// Doesn't currently use the SerializeAs attribute, defers to Newtonsoft's attributes
     /// </summary>
-    public class JsonSerializer : ISerializer
+    public class JsonSerializer : ISerializer, IDeserializer    
     {
-        private readonly Newtonsoft.Json.JsonSerializer _serializer;
+        private readonly Newtonsoft.Json.JsonSerializer serializer;
 
         /// <summary>
         /// Default serializer
         /// </summary>
         public JsonSerializer()
         {
-            ContentType = "application/json";
-            _serializer = new Newtonsoft.Json.JsonSerializer
+            this.ContentType = "application/json";
+            this.serializer = new Newtonsoft.Json.JsonSerializer
             {
                 MissingMemberHandling = MissingMemberHandling.Ignore,
                 NullValueHandling = NullValueHandling.Include,
@@ -50,8 +52,27 @@ namespace MobLib.Serializers.Serializers
         /// </summary>
         public JsonSerializer(Newtonsoft.Json.JsonSerializer serializer)
         {
-            ContentType = "application/json";
-            _serializer = serializer;
+            this.ContentType = "application/json";
+            this.serializer = serializer;
+        }
+
+        /// <summary>
+        /// Desserialize a JSON text
+        /// </summary>
+        /// <typeparam name="T">the result type</typeparam>
+        /// <param name="response">the rest respose</param>
+        /// <returns>the deserialized content</returns>
+        public T Deserialize<T>(IRestResponse response)
+        {
+            var content = response.Content;
+
+            using (var stringReader = new StringReader(content))
+            {
+                using (var jsonTextReader = new JsonTextReader(stringReader))
+                {
+                    return serializer.Deserialize<T>(jsonTextReader);
+                }
+            }
         }
 
         /// <summary>
@@ -68,7 +89,7 @@ namespace MobLib.Serializers.Serializers
                     jsonTextWriter.Formatting = Formatting.Indented;
                     jsonTextWriter.QuoteChar = '"';
 
-                    _serializer.Serialize(jsonTextWriter, obj);
+                    serializer.Serialize(jsonTextWriter, obj);
 
                     var result = stringWriter.ToString();
                     return result;
@@ -92,5 +113,8 @@ namespace MobLib.Serializers.Serializers
         /// Content type for serialized content
         /// </summary>
         public string ContentType { get; set; }
+
+
+        
     }
 }

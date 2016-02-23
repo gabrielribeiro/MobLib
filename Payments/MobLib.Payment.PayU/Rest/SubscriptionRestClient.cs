@@ -2,7 +2,7 @@
 using RestSharp;
 namespace MobLib.Payment.PayU.Rest
 {
-    internal class SubscriptionRestClient : BaseRestClient
+    internal class SubscriptionRestClient : PayURestClient 
     {
     }
 }

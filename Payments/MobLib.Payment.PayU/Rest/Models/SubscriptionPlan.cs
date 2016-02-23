@@ -1,10 +1,11 @@
-﻿using RestSharp.Serializers;
+﻿using Newtonsoft.Json;
+using RestSharp.Serializers;
 
 namespace MobLib.Payment.PayU.Rest.Models
 {
     internal class SubscriptionPlan
     {
-        [SerializeAs(Name = "planCode")]
+        [JsonProperty("planCode")]
         public string PlanCode { get; set; }
     }
 }

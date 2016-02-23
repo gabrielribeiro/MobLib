@@ -1,24 +1,25 @@
-﻿using RestSharp.Serializers;
+﻿using Newtonsoft.Json;
+using RestSharp.Serializers;
 
 namespace MobLib.Payment.PayU.Rest.Models
 {
     class Address
     {
-        [SerializeAs(Name = "line1")]
+        [JsonProperty("line1")]
         public string Line1 { get; set; }
-        [SerializeAs(Name = "line2")]
+        [JsonProperty("line2")]
         public string Line2 { get; set; }
-        [SerializeAs(Name = "line3")]
+        [JsonProperty("line3")]
         public string Line3 { get; set; }
-        [SerializeAs(Name = "postalCode")]
+        [JsonProperty("postalCode")]
         public string PostalCode { get; set; }
-        [SerializeAs(Name = "city")]
+        [JsonProperty("city")]
         public string City { get; set; }
-        [SerializeAs(Name = "country")]
+        [JsonProperty("country")]
         public string Country { get; set; }
-        [SerializeAs(Name = "state")]
+        [JsonProperty("state")]
         public string State { get; set; }
-        [SerializeAs(Name = "phone")]
+        [JsonProperty("phone")]
         public string Phone { get; set; }
 
 

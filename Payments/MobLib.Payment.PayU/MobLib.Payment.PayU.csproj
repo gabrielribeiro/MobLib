@@ -146,6 +146,7 @@
     <Compile Include="Rest\Models\SubscriptionCreditCard.cs" />
     <Compile Include="Rest\Models\SubscriptionCustomer.cs" />
     <Compile Include="Rest\Models\SubscriptionPlan.cs" />
+    <Compile Include="Rest\PayURestClient.cs" />
     <Compile Include="Rest\SubscriptionRestClient.cs" />
     <Compile Include="Rest\PlanRestClient.cs" />
     <Compile Include="Rest\CustomerRestClient.cs" />

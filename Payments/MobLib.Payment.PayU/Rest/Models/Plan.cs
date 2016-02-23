@@ -6,7 +6,7 @@ namespace MobLib.Payment.PayU.Rest.Models
     internal class Plan
     {
         [JsonProperty("id")]
-        public string id { get; set; }
+        public string PlanId { get; set; }
         [JsonProperty("accountId")]
         public string AccountId { get; set; }
         [JsonProperty("planCode")]

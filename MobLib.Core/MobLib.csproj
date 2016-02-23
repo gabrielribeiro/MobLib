@@ -154,7 +154,7 @@
     <Compile Include="Extensions\ModelStateExtentions.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="GlobalSuppressions.cs" />
-    <Compile Include="Rest\BaseRestClient.cs" />
+    <Compile Include="Rest\JsonRestClient.cs" />
     <Compile Include="Rest\JsonSerializer.cs" />
     <Compile Include="WebRequest\BaseWebRequest.cs" />
     <Compile Include="Configuration.cs" />

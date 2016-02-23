@@ -1,28 +1,29 @@
-﻿using RestSharp.Serializers;
+﻿using Newtonsoft.Json;
+using RestSharp.Serializers;
 
 namespace MobLib.Payment.PayU.Rest.Models
 {
     internal class CreditCard
     {
-        [SerializeAs(Name = "name")]
+        [JsonProperty("name")]
         public string Name { get; set; }
 
-        [SerializeAs(Name = "document")]
+        [JsonProperty("document")]
         public string Document { get; set; }
 
-        [SerializeAs(Name = "type")]
+        [JsonProperty("type")]
         public int CreditCardTypeId { get; set; }
 
-        [SerializeAs(Name = "customerId")]
+        [JsonProperty("customerId")]
         public int CustomerId { get; set; }
 
-        [SerializeAs(Name = "token")]
+        [JsonProperty("token")]
         public string Token { get; set; }
 
-        [SerializeAs(Name = "number")]
+        [JsonProperty("number")]
         public string Number { get; set; }
 
-        [SerializeAs(Name = "address")]
+        [JsonProperty("address")]
         public Address Address { get; set; }
     }
 }

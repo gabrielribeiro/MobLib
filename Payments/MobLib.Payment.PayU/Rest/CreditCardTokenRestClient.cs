@@ -3,7 +3,7 @@ using RestSharp;
 
 namespace MobLib.Payment.PayU.Rest
 {
-    internal class CreditCardTokenRestClient : BaseRestClient
+    internal class CreditCardTokenRestClient : PayURestClient
     {
         public CreditCardTokenRestClient() : base() { }
     }

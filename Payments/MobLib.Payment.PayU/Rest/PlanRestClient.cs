@@ -8,10 +8,8 @@ using MobLib.Rest;
 
 namespace MobLib.Payment.PayU.Rest
 {
-    public class PlanRestClient : BaseRestClient
+    public class PlanRestClient : PayURestClient 
     {
-        public PlanRestClient() : base() { }
-
         public Plan Get(string planCode)
         {
             var request = this.CreateJsonRequest(string.Format("/rest/v4.3/plans/{0}", planCode), Method.GET);

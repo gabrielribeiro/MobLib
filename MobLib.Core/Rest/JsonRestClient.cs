@@ -11,20 +11,29 @@ namespace MobLib.Rest
 
         protected readonly RestClient restClient;
 
+        protected readonly JsonSerializer serializer;
+
         public BaseRestClient()
         {
-            string url = Configuration.GetConfigurationValue("PayU_WsUrl");
-            string userName = Configuration.GetConfigurationValue("PayU_Login");
-            string password = Configuration.GetConfigurationValue("PayU_Api_Key");
-            this.restClient = new RestClient(url);
-            this.restClient.Authenticator = new HttpBasicAuthenticator(userName, password);
+            serializer = new JsonSerializer();
+            restClient = this.GetRestClient();
+        }
+
+        protected virtual RestClient GetRestClient() 
+        {
+            var client = new RestClient();
+            client.ClearHandlers();
+            client.AddHandler("application/json", serializer);
+            
+            return client;
         }
 
         protected IRestRequest CreateJsonRequest(string source, Method method)
         {
             var request = new RestRequest(source, method);
             request.RequestFormat = DataFormat.Json;
-            request.JsonSerializer = new JsonSerializer();
+            request.JsonSerializer = serializer;
+            request.OnBeforeDeserialization = resp => { resp.ContentType = "application/json"; };
             request.AddHeader("Accept", "application/json");
 
             return request;

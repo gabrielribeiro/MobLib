@@ -1,10 +1,11 @@
-﻿using RestSharp.Serializers;
+﻿using Newtonsoft.Json;
+using RestSharp.Serializers;
 
 namespace MobLib.Payment.PayU.Rest.Models
 {
     internal class SubscriptionCreditCard
     {
-        [SerializeAs(Name = "token")]
+        [JsonProperty("token")]
         public string Token { get; set; }
     }
 }
