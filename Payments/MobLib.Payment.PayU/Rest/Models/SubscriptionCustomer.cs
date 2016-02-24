@@ -6,9 +6,14 @@ namespace MobLib.Payment.PayU.Rest.Models
 {
     internal class SubscriptionCustomer
     {
+        public SubscriptionCustomer()
+        {
+            this.CreditCards = new List<SubscriptionCreditCard>();
+        }
+
         [JsonProperty("id")]
         public string CustomerPayUId { get; set; }
         [JsonProperty("creditCards")]
-        public IEnumerable<SubscriptionCreditCard> CreditCards { get; set; }
+        public List<SubscriptionCreditCard> CreditCards { get; set; }
     }
 }

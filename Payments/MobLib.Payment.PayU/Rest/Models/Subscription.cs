@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using RestSharp.Serializers;
+using System;
 
 namespace MobLib.Payment.PayU.Rest.Models
 {
@@ -17,5 +18,9 @@ namespace MobLib.Payment.PayU.Rest.Models
         public SubscriptionCustomer Customer { get; set; }
         [JsonProperty("plan")]
         public SubscriptionPlan Plan { get; set; }
+        [JsonProperty("currentPeriodStart")]
+        public long? StartPeriod { get; set; }
+        [JsonProperty("currentPeriodEnd")]
+        public long? EndPeriod { get; set; }
     }
 }

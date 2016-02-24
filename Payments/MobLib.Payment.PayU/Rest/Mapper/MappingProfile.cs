@@ -24,6 +24,51 @@ namespace MobLib.Payment.PayU.Rest.Mapper
             this.CreateMap<Customer, Models.Customer>();
             this.CreateMap<Models.Customer, Customer>();
 
+            this.CreateMap<CreditCardToken, Models.CreditCard>()
+               .ForMember(dest => dest.CustomerId, conf => conf.MapFrom(src => src.Customer.CustomerPayUId))
+               .ForMember(dest => dest.CreditCardTypeId, conf => conf.MapFrom(src => src.CreditCardType.Code))
+               .ForMember(dest => dest.ExpirationMonth, conf => conf.MapFrom(src => src.ExpirationDate.ToString("MM")))
+               .ForMember(dest => dest.ExpirationYear, conf => conf.MapFrom(src => src.ExpirationDate.ToString("yy")))
+               .AfterMap((src, dest) =>
+               {
+                   dest.Address.Country = src.Country.Code;
+                   dest.Address.Phone = src.Customer.ContactPhone;
+               });
+            this.CreateMap<Models.CreditCard, CreditCardToken>();
+
+            this.CreateMap<Address, Models.Address>();
+            this.CreateMap<Models.Address, Address>();
+
+            this.CreateMap<Subscription, Models.Subscription>()
+                .ForMember(src => src.StartPeriod, conf => conf.Ignore())
+                .ForMember(src => src.EndPeriod, conf => conf.Ignore());
+            this.CreateMap<Models.Subscription, Subscription>()
+                .ForMember(src => src.StartPeriod, conf => conf.Ignore())
+                .ForMember(src => src.EndPeriod, conf => conf.Ignore())
+                .AfterMap((src, dest) =>
+                {
+                    var dateTime = new DateTime(1970, 1, 1, 0, 0, 0);
+                    if (src.StartPeriod.HasValue)
+                    {
+                        dest.StartPeriod = dateTime.AddMilliseconds(src.StartPeriod.Value);
+                    }
+
+                    if (src.EndPeriod.HasValue)
+                    {
+                        dest.EndPeriod = dateTime.AddMilliseconds(src.EndPeriod.Value);
+                    }
+                });
+
+            this.CreateMap<CreditCardToken, Models.SubscriptionCreditCard>();
+            this.CreateMap<Models.SubscriptionCreditCard, CreditCardToken>();
+
+            this.CreateMap<Customer, Models.SubscriptionCustomer>()
+               .ForMember(dest => dest.CreditCards, conf => conf.MapFrom(src => src.CreditCardTokens));
+            this.CreateMap<Models.SubscriptionCustomer, Customer>()
+               .ForMember(dest => dest.CreditCardTokens, conf => conf.MapFrom(src => src.CreditCards));
+
+            this.CreateMap<Plan, Models.SubscriptionPlan>();
+            this.CreateMap<Models.SubscriptionPlan, Plan>();
 
             this.CreateMap<AdditionalValue, Models.AdditionalValue>()
                .ForMember(dest => dest.Currency, conf => conf.MapFrom(src => src.Currency.Code));

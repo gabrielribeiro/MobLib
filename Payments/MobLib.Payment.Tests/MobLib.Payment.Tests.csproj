@@ -61,6 +61,8 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="SubscriptionRestClientTest.cs" />
+    <Compile Include="CreditCardRestClientTest.cs" />
     <Compile Include="Migrations\201602131711453_Initial.cs" />
     <Compile Include="Migrations\201602131711453_Initial.Designer.cs">
       <DependentUpon>201602131711453_Initial.cs</DependentUpon>

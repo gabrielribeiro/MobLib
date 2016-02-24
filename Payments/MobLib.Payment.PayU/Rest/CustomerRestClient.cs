@@ -44,7 +44,7 @@ namespace MobLib.Payment.PayU.Rest
 
             var customerModel = customer.Map<Customer, Models.Customer>();
 
-            var request = this.CreateJsonRequest(string.Format("/rest/v4.3/customers/{0}", customerModel.CustomerPayUId), Method.POST);
+            var request = this.CreateJsonRequest(string.Format("/rest/v4.3/customers/{0}", customerModel.CustomerPayUId), Method.PUT);
             request.AddBody(customerModel);
 
             var response = this.ExecuteRequest<Models.Customer>(request);

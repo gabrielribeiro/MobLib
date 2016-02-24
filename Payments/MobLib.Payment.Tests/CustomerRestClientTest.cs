@@ -20,7 +20,7 @@ namespace MobLib.Payment.Tests
         }
 
         [TestMethod]
-        public void Post_ShouldCreatePlan()
+        public void Post_ShouldCreateCustomer()
         {
             var rand = new Random();
             var customer = new Customer

@@ -45,7 +45,7 @@ namespace MobLib.Payment.PayU.Rest
 
             var planModel = plan.Map<Plan, Models.Plan>();
 
-            var request = this.CreateJsonRequest(string.Format("/rest/v4.3/plans/{0}", planModel.PlanCode), Method.POST);
+            var request = this.CreateJsonRequest(string.Format("/rest/v4.3/plans/{0}", planModel.PlanCode), Method.PUT);
             request.AddBody(planModel);
 
             var response = this.ExecuteRequest<Models.Plan>(request);
