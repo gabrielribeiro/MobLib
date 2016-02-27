@@ -130,10 +130,19 @@
     <Compile Include="Data\Mapping\AdditionalValueMap.cs" />
     <Compile Include="Data\Mapping\CustomerMap.cs" />
     <Compile Include="Data\PayUDataModeler.cs" />
+    <Compile Include="Domain\Contracts\IPayUAdditionalValueService.cs" />
     <Compile Include="Domain\Contracts\IPayUContext.cs" />
+    <Compile Include="Domain\Contracts\IPayUCountryService.cs" />
+    <Compile Include="Domain\Contracts\IPayUCreditCardTokenService.cs" />
+    <Compile Include="Domain\Contracts\IPayUCreditCardTypeService.cs" />
     <Compile Include="Domain\Contracts\IPayUCreditCardTypeRepository.cs" />
     <Compile Include="Domain\Contracts\IPayUCreditCardTokenRepository.cs" />
+    <Compile Include="Domain\Contracts\IPayUCurrencyService.cs" />
     <Compile Include="Domain\Contracts\IPayUCurrencyRepository.cs" />
+    <Compile Include="Domain\Contracts\IPayUCustomerService.cs" />
+    <Compile Include="Domain\Contracts\IPayUPlanIntervalService.cs" />
+    <Compile Include="Domain\Contracts\IPayUPlanService.cs" />
+    <Compile Include="Domain\Contracts\IPayUSubscriptionService.cs" />
     <Compile Include="Domain\Contracts\IPayUSubscriptionRepository.cs" />
     <Compile Include="Domain\Contracts\IPayUPlanIntervalRepository.cs" />
     <Compile Include="Domain\Contracts\IPayUPlanRepository.cs" />
@@ -168,6 +177,15 @@
     <Compile Include="Rest\SubscriptionRestClient.cs" />
     <Compile Include="Rest\PlanRestClient.cs" />
     <Compile Include="Rest\CustomerRestClient.cs" />
+    <Compile Include="Services\PayUAdditionalValueService.cs" />
+    <Compile Include="Services\PayUCountryService.cs" />
+    <Compile Include="Services\PayUCreditCardTokenService.cs" />
+    <Compile Include="Services\PayUCreditCardTypeService.cs" />
+    <Compile Include="Services\PayUCurrencyService.cs" />
+    <Compile Include="Services\PayUCustomerService.cs" />
+    <Compile Include="Services\PayUPlanIntervalService.cs" />
+    <Compile Include="Services\PayUPlanService.cs" />
+    <Compile Include="Services\PayUSubscriptionService.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\MobLib.Core\MobLib.csproj">
@@ -179,9 +197,7 @@
     <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Services\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
