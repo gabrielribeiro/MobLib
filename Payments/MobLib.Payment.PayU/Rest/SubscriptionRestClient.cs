@@ -7,10 +7,10 @@ using System.Net;
 
 namespace MobLib.Payment.PayU.Rest
 {
-    public class SubscriptionRestClient : PayURestClient 
+    internal class SubscriptionRestClient : PayURestClient 
     {
 
-        public Subscription Get(string subscriptionId)
+        internal Subscription Get(string subscriptionId)
         {
             var request = this.CreateJsonRequest(string.Format("/rest/v4.3/subscriptions/{0}", subscriptionId), Method.GET);
 
@@ -19,7 +19,7 @@ namespace MobLib.Payment.PayU.Rest
             return response.Data.Map<Models.Subscription, Subscription>();
         }
 
-        public Subscription Post(Subscription subscription)
+        internal Subscription Post(Subscription subscription)
         {
             if (subscription == null)
             {
@@ -36,7 +36,7 @@ namespace MobLib.Payment.PayU.Rest
             return response.Data.Map<Models.Subscription, Subscription>();
         }
 
-        public Subscription Put(Subscription subscription)
+        internal Subscription Put(Subscription subscription)
         {
             if (subscription == null)
             {
@@ -53,7 +53,7 @@ namespace MobLib.Payment.PayU.Rest
             return response.Data.Map<Models.Subscription, Subscription>();
         }
 
-        public bool Delete(string subscriptionId)
+        internal bool Delete(string subscriptionId)
         {
             var request = this.CreateJsonRequest(string.Format("/rest/v4.3/subscriptions/{0}", subscriptionId), Method.DELETE);
 

@@ -14,11 +14,6 @@ namespace MobLib.Payment.Tests
     [TestClass]
     public class PlanRestClientTest
     {
-        public PlanRestClientTest()
-        {
-            ServicePointManager.ServerCertificateValidationCallback = (sender, certificate, chain, sslPolicyErrors) => true;
-        }
-
         [TestMethod]
         public void Post_ShouldCreatePlan()
         {

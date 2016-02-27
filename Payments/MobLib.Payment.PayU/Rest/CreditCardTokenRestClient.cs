@@ -7,9 +7,9 @@ using System.Net;
 
 namespace MobLib.Payment.PayU.Rest
 {
-    public class CreditCardTokenRestClient : PayURestClient
+    internal class CreditCardTokenRestClient : PayURestClient
     {
-        public CreditCardToken Get(string creditCardId)
+        internal CreditCardToken Get(string creditCardId)
         {
             var request = this.CreateJsonRequest(string.Format("/rest/v4.3/creditCards/{0}", creditCardId), Method.GET);
 
@@ -18,7 +18,7 @@ namespace MobLib.Payment.PayU.Rest
             return response.Data.Map<Models.CreditCard, CreditCardToken>();
         }
 
-        public CreditCardToken Post(CreditCardToken creditCard)
+        internal CreditCardToken Post(CreditCardToken creditCard)
         {
             if (creditCard == null)
             {
@@ -35,7 +35,7 @@ namespace MobLib.Payment.PayU.Rest
             return response.Data.Map<Models.CreditCard, CreditCardToken>();
         }
 
-        public CreditCardToken Put(CreditCardToken creditCard)
+        internal CreditCardToken Put(CreditCardToken creditCard)
         {
             if (creditCard == null)
             {
@@ -52,7 +52,7 @@ namespace MobLib.Payment.PayU.Rest
             return response.Data.Map<Models.CreditCard, CreditCardToken>();
         }
 
-        public bool Delete(string customerId, string creditCardToken)
+        internal bool Delete(string customerId, string creditCardToken)
         {
             var request = this.CreateJsonRequest(string.Format("/rest/v4.3/customers/{0}/creditCards/{1}", customerId, creditCardToken), Method.DELETE);
 

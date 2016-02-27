@@ -2,6 +2,8 @@
 using RestSharp;
 using RestSharp.Authenticators;
 using System;
+using System.Net;
+using System.Net.Security;
 
 namespace MobLib.Rest
 {
@@ -13,11 +15,15 @@ namespace MobLib.Rest
 
         protected readonly JsonSerializer serializer;
 
+        private RemoteCertificateValidationCallback certificateValidationCallback; 
+
         public BaseRestClient()
         {
             serializer = new JsonSerializer();
             restClient = this.GetRestClient();
         }
+
+        protected abstract bool IgnoreSllValidation { get; }
 
         protected virtual RestClient GetRestClient() 
         {
@@ -41,6 +47,7 @@ namespace MobLib.Rest
 
         protected IRestResponse<T> ExecuteRequest<T>(IRestRequest request)
         {
+            this.RemoveValidatiton();
             var task = this.restClient.ExecuteTaskAsync<T>(request);
             task.Wait();
 
@@ -50,12 +57,13 @@ namespace MobLib.Rest
                 var message = task.Result != null && task.Result.ErrorMessage != null ? task.Result.ErrorMessage : defaultErrorMessage;
                 throw new ApplicationException(message, task.Exception ?? task.Result.ErrorException);
             }
-
+            this.RestoreValidatiton();
             return task.Result;
         }
 
         protected IRestResponse ExecuteRequest(IRestRequest request)
         {
+            this.RemoveValidatiton();
             var task = this.restClient.ExecuteTaskAsync(request);
             task.Wait();
 
@@ -66,7 +74,25 @@ namespace MobLib.Rest
                 throw new ApplicationException(message, task.Exception ?? task.Result.ErrorException);
             }
 
+            this.RestoreValidatiton();
             return task.Result;
+        }
+
+        private void RemoveValidatiton()
+        {
+            if (this.IgnoreSllValidation)
+            {
+                this.certificateValidationCallback = ServicePointManager.ServerCertificateValidationCallback;
+                ServicePointManager.ServerCertificateValidationCallback = (sender, certificate, chain, sslPolicyErrors) => true;
+            }
+        }
+
+        private void RestoreValidatiton()
+        {
+            if (this.IgnoreSllValidation)
+            {
+                ServicePointManager.ServerCertificateValidationCallback = this.certificateValidationCallback;
+            }
         }
     }
 }

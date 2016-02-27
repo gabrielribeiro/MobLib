@@ -14,11 +14,6 @@ namespace MobLib.Payment.Tests
     [TestClass]
     public class CreditCardRestClientTest
     {
-        public CreditCardRestClientTest()
-        {
-            ServicePointManager.ServerCertificateValidationCallback = (sender, certificate, chain, sslPolicyErrors) => true;
-        }
-
         [TestMethod]
         public void Post_ShouldCreateCreditCard()
         {

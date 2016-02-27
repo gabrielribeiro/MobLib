@@ -7,9 +7,9 @@ using System.Net;
 
 namespace MobLib.Payment.PayU.Rest
 {
-    public class CustomerRestClient : PayURestClient 
+    internal class CustomerRestClient : PayURestClient 
     {
-        public Customer Get(string planCode)
+        internal Customer Get(string planCode)
         {
             var request = this.CreateJsonRequest(string.Format("/rest/v4.3/customers/{0}", planCode), Method.GET);
 
@@ -18,7 +18,7 @@ namespace MobLib.Payment.PayU.Rest
             return response.Data.Map<Models.Customer, Customer>();
         }
 
-        public Customer Post(Customer customer)
+        internal Customer Post(Customer customer)
         {
             if (customer == null)
             {
@@ -35,7 +35,7 @@ namespace MobLib.Payment.PayU.Rest
             return response.Data.Map<Models.Customer, Customer>();
         }
 
-        public Customer Put(Customer customer)
+        internal Customer Put(Customer customer)
         {
             if (customer == null)
             {
@@ -52,7 +52,7 @@ namespace MobLib.Payment.PayU.Rest
             return response.Data.Map<Models.Customer, Customer>();
         }
 
-        public bool Delete(string customerPayUId)
+        internal bool Delete(string customerPayUId)
         {
             var request = this.CreateJsonRequest(string.Format("/rest/v4.3/customers/{0}", customerPayUId), Method.DELETE);
 

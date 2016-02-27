@@ -2,13 +2,13 @@
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Data.Entity.ModelConfiguration;
 
-namespace MobLib.Payment.PayU.Data
+namespace MobLib.Payment.PayU.Data.Mapping
 {
-    public class CountryMap : EntityTypeConfiguration<Country>
+    public class CurrencyMap : EntityTypeConfiguration<Currency>
     {
-        public CountryMap()
+        public CurrencyMap()
         {
-            this.ToTable("PayU.Country");
+            this.ToTable("PayU.Currency");
             this.HasKey(x => x.Id);
             this.Property(x => x.Id).HasDatabaseGeneratedOption(DatabaseGeneratedOption.None);
             this.Property(x => x.Name).IsRequired();

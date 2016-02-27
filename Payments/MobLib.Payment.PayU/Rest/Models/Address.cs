@@ -3,7 +3,7 @@ using RestSharp.Serializers;
 
 namespace MobLib.Payment.PayU.Rest.Models
 {
-    class Address
+    internal class Address
     {
         [JsonProperty("line1")]
         public string Line1 { get; set; }

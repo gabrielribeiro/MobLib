@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Data.Entity.ModelConfiguration;
 
-namespace MobLib.Payment.PayU.Data
+namespace MobLib.Payment.PayU.Data.Mapping
 {
     public class PlanIntervalMap : EntityTypeConfiguration<PlanInterval>
     {

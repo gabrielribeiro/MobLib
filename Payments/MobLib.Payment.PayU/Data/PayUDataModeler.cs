@@ -1,4 +1,5 @@
 ﻿using MobLib.Core.Infra.Data;
+using MobLib.Payment.PayU.Data.Mapping;
 using MobLib.Payment.PayU.Domain.Entities;
 using System.Data.Entity;
 

@@ -14,11 +14,6 @@ namespace MobLib.Payment.Tests
     [TestClass]
     public class CustomerRestClientTest
     {
-        public CustomerRestClientTest()
-        {
-            ServicePointManager.ServerCertificateValidationCallback = (sender, certificate, chain, sslPolicyErrors) => true;
-        }
-
         [TestMethod]
         public void Post_ShouldCreateCustomer()
         {

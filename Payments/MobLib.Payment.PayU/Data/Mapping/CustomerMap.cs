@@ -1,12 +1,7 @@
 ﻿using MobLib.Payment.PayU.Domain.Entities;
-using System;
-using System.Collections.Generic;
 using System.Data.Entity.ModelConfiguration;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace MobLib.Payment.PayU.Data
+namespace MobLib.Payment.PayU.Data.Mapping
 {
     public class CustomerMap : EntityTypeConfiguration<Customer>
     {

@@ -1,7 +1,7 @@
 ﻿using MobLib.Payment.PayU.Domain.Entities;
 using System.Data.Entity.ModelConfiguration;
 
-namespace MobLib.Payment.PayU.Data
+namespace MobLib.Payment.PayU.Data.Mapping
 {
     public class AdditionalValueMap : EntityTypeConfiguration<AdditionalValue>
     {

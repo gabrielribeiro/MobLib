@@ -5,8 +5,13 @@ using System;
 
 namespace MobLib.Payment.PayU.Rest
 {
-    public class PayURestClient : BaseRestClient
+    internal class PayURestClient : BaseRestClient
     {
+        protected override bool IgnoreSllValidation
+        {
+            get { return true; }
+        }
+
         protected override RestSharp.RestClient GetRestClient()
         {
             string url = Configuration.GetConfigurationValue("PayU_WsUrl");

@@ -2,7 +2,7 @@
 
 namespace MobLib.Payment.PayU.Rest.Models
 {
-    public class AdditionalValue
+    internal class AdditionalValue
     {
         [JsonProperty("name")]
         public string Name { get; set; }
