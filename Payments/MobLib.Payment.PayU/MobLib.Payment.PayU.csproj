@@ -154,6 +154,7 @@
     <Compile Include="Domain\Entities\Address.cs" />
     <Compile Include="Domain\Entities\Country.cs" />
     <Compile Include="Domain\Entities\CreditCardType.cs" />
+    <Compile Include="Domain\Entities\CreditCardTypeCode.cs" />
     <Compile Include="Domain\Entities\Currency.cs" />
     <Compile Include="Domain\Entities\CurrencyCode.cs" />
     <Compile Include="Domain\Entities\Customer.cs" />

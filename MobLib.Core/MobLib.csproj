@@ -137,6 +137,7 @@
     <Compile Include="Core\Infra\Dependency\MobDependencyResolver.cs" />
     <Compile Include="Core\Infra\Dependency\MobTypeFinder.cs" />
     <Compile Include="Core\Infra\Dependency\TypeFinderExtentions.cs" />
+    <Compile Include="Core\Infra\Dependency\DependencyResolver.cs" />
     <Compile Include="Core\Infra\Dependency\WebApiDependencyResolver.cs" />
     <Compile Include="Core\Infra\Singleton.cs" />
     <Compile Include="Exceptions\MobException.cs" />

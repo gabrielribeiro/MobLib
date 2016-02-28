@@ -13,7 +13,7 @@ namespace MobLib.Payment.Tests.TestContext
     public class PayUContext : MobDbContext, IPayUContext
     {
         public PayUContext()
-            : base("PayU")
+            : base("PayUTestDb")
         {
         }
 

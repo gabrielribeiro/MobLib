@@ -38,12 +38,12 @@ namespace MobLib.Core.Infra.Dependency
 
             var typeFinder = new MobTypeFinder();
 
-            if (Registrators == null || !Registrators.Any())
+            if (this.Registrators == null || !this.Registrators.Any())
             {
                 Registrators = typeFinder.GetInstancesOf<IDependencyRegistrator>().OrderBy(x => x.Order);
             }
 
-            foreach (var registrator in Registrators)
+            foreach (var registrator in this.Registrators)
             {
                 registrator.Register(builder, typeFinder);
             }

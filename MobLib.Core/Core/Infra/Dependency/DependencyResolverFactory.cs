@@ -29,7 +29,19 @@ namespace MobLib.Core.Infra.Dependency
                 case ResolverType.Mvc:
                     throw new NotImplementedException("The type informed it's not implemented");
                 default:
-                    throw new NotSupportedException("The type informed it's not supported");
+                    if (registrators != null)
+                    {
+                        Singleton<DependencyResolver>.Instance = new DependencyResolver(registrators);
+                    }
+                    else
+                    {
+                        if (Singleton<DependencyResolver>.Instance == null)
+                        {
+                            Singleton<DependencyResolver>.Instance = new DependencyResolver();
+                        }
+                    }
+                    resolver = Singleton<DependencyResolver>.Instance;
+                    break;
             }
            
             Singleton<IDependencyResolver>.Instance = resolver;
@@ -49,6 +61,8 @@ namespace MobLib.Core.Infra.Dependency
 
     public enum ResolverType
     {
+        None,
+        Default,
         WebApi,
         Mvc
     }

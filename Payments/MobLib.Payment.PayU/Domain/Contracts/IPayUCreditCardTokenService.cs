@@ -5,5 +5,6 @@ namespace MobLib.Payment.PayU.Domain.Contracts
 {
     public interface IPayUCreditCardTokenService : IMobService<CreditCardToken>
     {
+        CreditCardTypeCode? GetCardTypeFromNumber(string cardNum);
     }
 }
