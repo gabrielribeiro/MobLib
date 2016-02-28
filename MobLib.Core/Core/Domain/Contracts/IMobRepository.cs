@@ -60,7 +60,7 @@ namespace MobLib.Core.Domain.Contracts
         /// 
         /// </summary>
         /// <param name="entities"></param>
-        void InsertRange(IEnumerable<TEntity> entities, int batchSize);
+        void InsertRange(IEnumerable<TEntity> entities, int? batchSize);
 
         /// <summary>
         /// 

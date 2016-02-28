@@ -7,7 +7,7 @@ using System.Net;
 
 namespace MobLib.Payment.PayU.Rest
 {
-    internal class CreditCardTokenRestClient : PayURestClient
+    public class CreditCardTokenRestClient : PayURestClient
     {
         internal CreditCardToken Get(string creditCardId)
         {

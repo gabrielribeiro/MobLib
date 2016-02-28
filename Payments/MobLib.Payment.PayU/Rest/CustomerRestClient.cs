@@ -7,7 +7,7 @@ using System.Net;
 
 namespace MobLib.Payment.PayU.Rest
 {
-    internal class CustomerRestClient : PayURestClient 
+    public class CustomerRestClient : PayURestClient 
     {
         internal Customer Get(string planCode)
         {

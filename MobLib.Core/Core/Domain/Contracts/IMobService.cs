@@ -10,6 +10,7 @@ namespace MobLib.Core.Domain.Contracts
     public interface IMobService<TEntity> : IDisposable where TEntity : IMobEntity
     {
         IMobRepository<TEntity> Repository { get; }
+        bool AutoSaveEnabled { get; set; }
 
         #region .::Read Options::.
         /// <summary>

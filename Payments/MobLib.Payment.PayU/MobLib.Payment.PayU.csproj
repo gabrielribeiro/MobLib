@@ -130,6 +130,7 @@
     <Compile Include="Data\Mapping\AdditionalValueMap.cs" />
     <Compile Include="Data\Mapping\CustomerMap.cs" />
     <Compile Include="Data\PayUDataModeler.cs" />
+    <Compile Include="DependencyRegistrator.cs" />
     <Compile Include="Domain\Contracts\IPayUAdditionalValueService.cs" />
     <Compile Include="Domain\Contracts\IPayUContext.cs" />
     <Compile Include="Domain\Contracts\IPayUCountryService.cs" />

@@ -108,14 +108,15 @@ namespace MobLib.Core.Infra.Data
                     db.SaveChanges();
 
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
+                    ex.ToString();
                     throw;
                 }
             }
         }
 
-        public void InsertRange(IEnumerable<T> entities, int batchSize = 100)
+        public void InsertRange(IEnumerable<T> entities, int? batchSize = null)
         {
             try
             {
@@ -126,10 +127,13 @@ namespace MobLib.Core.Infra.Data
 
                 if (entities.Any())
                 {
-                    if (batchSize <= 0)
+                    if (!batchSize.HasValue)
                     {
                         this.Entities.AddRange(entities);
-                        this.Context.SaveChanges();
+                        if (this.AutoCommitEnabled)
+                        {
+                            this.Context.SaveChanges();
+                        }
                     }
                     else
                     {
@@ -139,7 +143,7 @@ namespace MobLib.Core.Infra.Data
                         {
                             this.Insert(entity);
                             saved = false;
-                            if (i % batchSize == 0)
+                            if (i % batchSize.Value == 0)
                             {
                                 if (this.AutoCommitEnabled)
                                 {

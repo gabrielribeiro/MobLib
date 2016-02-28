@@ -8,7 +8,7 @@ using MobLib.Rest;
 
 namespace MobLib.Payment.PayU.Rest
 {
-    internal class PlanRestClient : PayURestClient 
+    public class PlanRestClient : PayURestClient 
     {
         internal Plan Get(string planCode)
         {

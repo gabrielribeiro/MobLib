@@ -5,7 +5,7 @@ using System;
 
 namespace MobLib.Payment.PayU.Rest
 {
-    internal class PayURestClient : BaseRestClient
+    public class PayURestClient : BaseRestClient
     {
         protected override bool IgnoreSllValidation
         {

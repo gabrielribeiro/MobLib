@@ -10,14 +10,14 @@ namespace MobLib.Core.Services
     public class MobService<T> : IMobService<T> where T : class, IMobEntity, new()
     {
         #region .::Fields::.
-        private IMobRepository<T> repository;
+        private readonly IMobRepository<T> repository;
         #endregion
 
         #region .::Ctor::.
 
         public MobService(IMobRepository<T> mobRepository)
         {
-            repository = mobRepository;
+            this.repository = mobRepository;
         }
 
         #endregion
@@ -27,6 +27,12 @@ namespace MobLib.Core.Services
         public virtual IMobRepository<T> Repository
         {
             get { return repository; }
+        }
+
+        public virtual bool AutoSaveEnabled 
+        {
+            get { return this.repository.AutoCommitEnabled; }
+            set { this.repository.AutoCommitEnabled = value; }
         }
 
         #endregion
