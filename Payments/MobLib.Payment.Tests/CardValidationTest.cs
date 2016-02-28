@@ -46,7 +46,7 @@ namespace MobLib.Payment.Tests
 
             var typeDiners = service.GetCardTypeFromNumber("36490102462661");
 
-            var typeHipercard = service.GetCardTypeFromNumber("36490102462661");
+            var typeHipercard = service.GetCardTypeFromNumber("3841001111222233334");
 
             var typeDiscover = service.GetCardTypeFromNumber("6011020000245045");
 
@@ -56,7 +56,7 @@ namespace MobLib.Payment.Tests
             Assert.AreEqual(typeMaster2, CreditCardTypeCode.MasterCard);
             Assert.AreEqual(typeAmex, CreditCardTypeCode.Amex);
             Assert.AreEqual(typeHipercard, CreditCardTypeCode.HiperCard);
-            //Assert.AreEqual(typeElo, CreditCardTypeCode.Elo);
+            Assert.AreEqual(typeElo, CreditCardTypeCode.Elo);
             Assert.AreEqual(typeDiners, CreditCardTypeCode.DinersClub);
             Assert.AreEqual(typeDiscover, CreditCardTypeCode.Discover);             
         }

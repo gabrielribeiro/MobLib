@@ -22,12 +22,12 @@ namespace MobLib.Payment.PayU.Data
 
             context.Set<CreditCardType>().AddOrUpdate
                 (x => x.Id,
-                  new CreditCardType { Id = 1, Code = "VISA", Name = "Visa", Active = true, CreatedDate = DateTime.Now, UpdatedDate = DateTime.Now },
-                  new CreditCardType { Id = 2, Code = "AMEX", Name = "Amex", Active = true, CreatedDate = DateTime.Now, UpdatedDate = DateTime.Now },
-                  new CreditCardType { Id = 3, Code = "MASTERCARD", Name = "Master Card", Active = true, CreatedDate = DateTime.Now, UpdatedDate = DateTime.Now },
-                  new CreditCardType { Id = 4, Code = "ELO", Name = "Elo", Active = true, CreatedDate = DateTime.Now, UpdatedDate = DateTime.Now },
-                  new CreditCardType { Id = 5, Code = "HIPERCARD", Name = "Hipercard", Active = true, CreatedDate = DateTime.Now, UpdatedDate = DateTime.Now },
-                  new CreditCardType { Id = 6, Code = "DINERS", Name = "Diners", Active = true, CreatedDate = DateTime.Now, UpdatedDate = DateTime.Now }
+                  new CreditCardType { Id = 1, CreditCardTypeCode = CreditCardTypeCode.Visa , Code = "VISA", Name = "Visa", Active = true, CreatedDate = DateTime.Now, UpdatedDate = DateTime.Now },
+                  new CreditCardType { Id = 2, CreditCardTypeCode = CreditCardTypeCode.Amex, Code = "AMEX", Name = "Amex", Active = true, CreatedDate = DateTime.Now, UpdatedDate = DateTime.Now },
+                  new CreditCardType { Id = 3, CreditCardTypeCode = CreditCardTypeCode.MasterCard, Code = "MASTERCARD", Name = "Master Card", Active = true, CreatedDate = DateTime.Now, UpdatedDate = DateTime.Now },
+                  new CreditCardType { Id = 4, CreditCardTypeCode = CreditCardTypeCode.Elo, Code = "ELO", Name = "Elo", Active = true, CreatedDate = DateTime.Now, UpdatedDate = DateTime.Now },
+                  new CreditCardType { Id = 5, CreditCardTypeCode = CreditCardTypeCode.HiperCard, Code = "HIPERCARD", Name = "Hipercard", Active = true, CreatedDate = DateTime.Now, UpdatedDate = DateTime.Now },
+                  new CreditCardType { Id = 6, CreditCardTypeCode = CreditCardTypeCode.DinersClub, Code = "DINERS", Name = "Diners", Active = true, CreatedDate = DateTime.Now, UpdatedDate = DateTime.Now }
                 );
 
             context.Set<PlanInterval>().AddOrUpdate

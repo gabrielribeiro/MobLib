@@ -2,6 +2,8 @@
 {
     public enum CreditCardTypeCode
     {
+        None,
+        Aura,
         Visa,
         MasterCard,
         DinersClub,

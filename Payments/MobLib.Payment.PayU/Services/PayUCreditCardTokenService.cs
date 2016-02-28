@@ -1,5 +1,6 @@
 ﻿using MobLib.Core.Services;
 using MobLib.Exceptions;
+using MobLib.Extensions;
 using MobLib.Payment.PayU.Domain.Contracts;
 using MobLib.Payment.PayU.Domain.Entities;
 using MobLib.Payment.PayU.Rest;
@@ -12,7 +13,14 @@ namespace MobLib.Payment.PayU.Services
 {
     public class PayUCreditCardTokenService : MobService<CreditCardToken>, IPayUCreditCardTokenService
     {
-        private const string cardRegex = @"^(?:(?<Visa>4\d{3})|(?<MasterCard>5[1-5]\d{2})|(?<Discover>6011)|(?<DinersClub>(?:36\d{2})|(?:38\d{2})|(?:30[0-5]\d))|(?<Amex>3[47]\d{2}))([ -]?)(?(DinersClub)(?:\d{6}\1\d{4}))|(?(Amex)(?:\d{6}\1\d{5})|(?:\d{4}\1\d{4}\1\d{4}))$";
+        private const string visaRegex = @"^4[0-9]{12}(?:[0-9]{3})?$";
+        private const string masterRegex = @"^5[1-5][0-9]{14}$";
+        private const string amexRegex = @"^3[47][0-9]{13}$";
+        private const string dinersRegex = @"^3(?:0[0-5]|[68][0-9])[0-9]{11}$";
+        private const string auraRegex = @"^5[1-5][0-9]{14}$";
+        private const string discoverRegex = @"^6(?:011|5[0-9]{2})[0-9]{12}$";
+        private const string eloRegex = @"^(401178|401179|431274|438935|451416|457393|457631|457632|504175|627780|636297|636368|(506699|5067[0-6]\d|50677[0-8])|(50900\d|5090[1-9]\d|509[1-9]\d{2})|65003[1-3]|(65003[5-9]|65004\d|65005[0-1])|(65040[5-9]|6504[1-3]\d)|(65048[5-9]|65049\d|6505[0-2]\d|65053[0-8])|(65054[1-9]| 6505[5-8]\d|65059[0-8])|(65070\d|65071[0-8])|65072[0-7]|(65090[1-9]|65091\d|650920)|(65165[2-9]|6516[6-7]\d)|(65500\d|65501\d)|(65502[1-9]|6550[3-4]\d|65505[0-8]))[0-9]{10,12}";
+        private const string hipercardRegex = @"^(38[0-9]{17}|60[0-9]{14})$";
 
         private readonly CreditCardTokenRestClient restClient;
         private readonly IPayUCreditCardTypeService typeService;
@@ -162,127 +170,64 @@ namespace MobLib.Payment.PayU.Services
             throw new NotSupportedException("method not suported");
         }
 
-
-        public bool IsValidNumber(string cardNum)
+        public virtual bool IsValidNumber(string cardNumber)
         {
-            Regex cardTest = new Regex(cardRegex);
-
             //Determine the card type based on the number
-            CreditCardTypeCode? cardType = GetCardTypeFromNumber(cardNum);
+            CreditCardTypeCode? cardType = GetCardTypeFromNumber(cardNumber);
 
             //Call the base version of IsValidNumber and pass the 
             //number and card type
-            if (IsValidNumber(cardNum, cardType))
-                return true;
-            else
-                return false;
+            return cardType != null && this.IsValidLuhnNumber(cardNumber);
         }
 
-        public bool IsValidNumber(string cardNum, CreditCardTypeCode? cardType)
+        public virtual CreditCardTypeCode? GetCardTypeFromNumber(string cardNumber)
         {
-            //Create new instance of Regex comparer with our 
-            //credit card regex pattern
-            Regex cardTest = new Regex(cardRegex);
+            cardNumber = cardNumber.RemoveNonNumerics();
 
-            //Make sure the supplied number matches the supplied
-            //card type
-            if (cardTest.Match(cardNum).Groups[cardType.ToString()].Success)
-            {
-                //If the card type matches the number, then run it
-                //through Luhn's test to make sure the number appears correct
-                if (PassesLuhnTest(cardNum))
-                    return true;
-                else
-                    //The card fails Luhn's test
-                    return false;
-            }
-            else
-                //The card number does not match the card type
-                return false;
-        }
-
-        public virtual CreditCardTypeCode? GetCardTypeFromNumber(string cardNum)
-        {
-            //Create new instance of Regex comparer with our
-            //credit card regex pattern
-            Regex cardTest = new Regex(cardRegex);
-
-            //Compare the supplied card number with the regex
-            //pattern and get reference regex named groups
-            GroupCollection gc = cardTest.Match(cardNum).Groups;
-
-            //Compare each card type to the named groups to 
-            //determine which card type the number matches
-            if (gc[CreditCardTypeCode.Amex.ToString()].Success)
+            if (new Regex(amexRegex).IsMatch(cardNumber))
             {
                 return CreditCardTypeCode.Amex;
             }
-            else if (gc[CreditCardTypeCode.MasterCard.ToString()].Success)
+            else if (new Regex(masterRegex).IsMatch(cardNumber))
             {
                 return CreditCardTypeCode.MasterCard;
             }
-            else if (gc[CreditCardTypeCode.Visa.ToString()].Success)
+            else if (new Regex(visaRegex).IsMatch(cardNumber))
             {
                 return CreditCardTypeCode.Visa;
             }
-            else if (gc[CreditCardTypeCode.Discover.ToString()].Success)
+            else if (new Regex(discoverRegex).IsMatch(cardNumber))
             {
                 return CreditCardTypeCode.Discover;
             }
-            else if (gc[CreditCardTypeCode.DinersClub.ToString()].Success)
+            else if (new Regex(dinersRegex).IsMatch(cardNumber))
             {
                 return CreditCardTypeCode.DinersClub;
             }
+            else if (new Regex(eloRegex).IsMatch(cardNumber))
+            {
+                return CreditCardTypeCode.Elo;
+            }
+            else if (new Regex(hipercardRegex).IsMatch(cardNumber))
+            {
+                return CreditCardTypeCode.HiperCard;
+            }
+            else if (new Regex(auraRegex).IsMatch(cardNumber))
+            {
+                return CreditCardTypeCode.Aura;
+            }
             else
             {
-                //Card type is not supported by our system, return null
-                //(You can modify this code to support more (or less)
-                // card types as it pertains to your application)
                 return null;
             }
         }
-
-        public string GetCardTestNumber(CreditCardTypeCode cardType)
-        {
-            //According to PayPal, the valid test numbers that should be used
-            //for testing card transactions are:
-            //Credit Card Type              Credit Card Number
-            //American Express              378282246310005
-            //American Express              371449635398431
-            //American Express Corporate    378734493671000
-            //Diners Club                   30569309025904
-            //Diners Club                   38520000023237
-            //Discover                      6011111111111117
-            //Discover                      6011000990139424
-            //MasterCard                    5555555555554444
-            //MasterCard                    5105105105105100
-            //Visa                          4111111111111111
-            //Visa                          4012888888881881
-            //Src: https://www.paypal.com/en_US/vhelp/paypalmanager_help/credit_card_numbers.htm
-            //Credit: Scott Dorman, http://www.geekswithblogs.net/sdorman
-
-            //Return bogus CC number that passes Luhn and format tests
-            switch (cardType)
-            {
-                case CreditCardTypeCode.Amex:
-                    return "3782 822463 10005";
-                case CreditCardTypeCode.Discover:
-                    return "6011 1111 1111 1117";
-                case CreditCardTypeCode.MasterCard:
-                    return "5105 1051 0510 5100";
-                case CreditCardTypeCode.Visa:
-                    return "4111 1111 1111 1111";
-                default:
-                    return null;
-            }
-        }
-
-        public bool PassesLuhnTest(string cardNumber)
+        
+        private bool IsValidLuhnNumber(string cardNumber)
         {
             //Clean the card number- remove dashes and spaces
             cardNumber = cardNumber.Replace("-", "").Replace(" ", "");
 
-            //Convert card number into digits array
+            //Convert ca°rd number into digits array
             int[] digits = new int[cardNumber.Length];
             for (int len = 0; len < cardNumber.Length; len++)
             {
