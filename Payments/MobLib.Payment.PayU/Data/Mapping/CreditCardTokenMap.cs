@@ -19,6 +19,7 @@ namespace MobLib.Payment.PayU.Data.Mapping
             this.Property(x => x.Number).IsRequired();
             this.Property(x => x.ExpirationDate).IsRequired();
             this.Property(x => x.CountryId).IsRequired();
+            this.Ignore(x => x.VerificationCode);
 
             this.HasRequired(x => x.Country)
                 .WithMany()

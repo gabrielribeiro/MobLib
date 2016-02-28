@@ -41,7 +41,7 @@ namespace MobLib.Payment.PayU.Services
         {
             if (creditCardToken == null)
             {
-                throw new MobException("creditCardTokeno nao pode ser nulo");
+                throw new MobException("creditCardToken nao pode ser nulo");
             }
 
             if (creditCardToken.Customer == null || string.IsNullOrEmpty(creditCardToken.Customer.CustomerPayUId))
@@ -49,18 +49,30 @@ namespace MobLib.Payment.PayU.Services
                 throw new MobException("cliente inválido");
             }
 
-            var type = this.typeService.Find(creditCardToken.CreditCardTypeId);
+            var typeId = this.GetCardTypeFromNumber(creditCardToken.Number);
+
+            if (typeId == null) 
+            {
+                throw new MobException("cartão não suportado");
+            }
+
+            if (!this.IsValidNumber(creditCardToken.Number))
+            {
+                throw new MobException("cartão não é valido");            
+            }
+
+            var type = this.typeService.Find(typeId);
 
             if (type == null)
             {
-                throw new MobException("tipo de cartao inválido");
+                throw new MobException("tipo de cartão inválido");
             }
 
             var country = this.countryService.Find(creditCardToken.CountryId);
 
             if (country == null)
             {
-                throw new MobException("pais do cartao inválido");
+                throw new MobException("pais do cartão inválido");
             }
 
             creditCardToken.CreditCardType = type;
@@ -90,7 +102,19 @@ namespace MobLib.Payment.PayU.Services
                 throw new MobException("cliente inválido");
             }
 
-            var type = this.typeService.Find(creditCardToken.CreditCardTypeId);
+            var typeId = this.GetCardTypeFromNumber(creditCardToken.Number);
+
+            if (typeId == null)
+            {
+                throw new MobException("cartão não suportado");
+            }
+
+            if (!this.IsValidNumber(creditCardToken.Number))
+            {
+                throw new MobException("cartão não é valido");
+            }
+
+            var type = this.typeService.Find(typeId);
 
             if (type == null)
             {
