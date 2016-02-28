@@ -1,5 +1,4 @@
-﻿using MobLib.Serializers.Serializers;
-using RestSharp;
+﻿using RestSharp;
 using RestSharp.Authenticators;
 using System;
 using System.Net;

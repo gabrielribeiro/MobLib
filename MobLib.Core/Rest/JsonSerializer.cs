@@ -23,7 +23,7 @@ using RestSharp.Serializers;
 using RestSharp.Deserializers;
 using RestSharp;
 
-namespace MobLib.Serializers.Serializers
+namespace MobLib.Rest
 {
     /// <summary>
     /// Default JSON serializer for request bodies
