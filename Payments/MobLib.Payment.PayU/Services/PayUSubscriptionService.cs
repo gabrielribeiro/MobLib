@@ -27,7 +27,8 @@ namespace MobLib.Payment.PayU.Services
 
             if (!this.customerService.Exists(x => x.Id == subscription.CustomerId))
             {
-                throw new MobException("Cliente inválido para inscrição");
+                this.customerService.Insert(subscription.Customer);
+                subscription.CustomerId = subscription.Customer.Id;
             }
             else
             {
@@ -36,7 +37,8 @@ namespace MobLib.Payment.PayU.Services
 
             if (!this.creditCardService.Exists(x => x.Id == subscription.CreditCardTokenId))
             {
-                throw new MobException("Cliente inválido para inscrição");
+                this.creditCardService.Insert(subscription.CreditCardToken);
+                subscription.CreditCardTokenId = subscription.CreditCardToken.Id;
             }
             else
             {
