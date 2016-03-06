@@ -28,6 +28,8 @@ namespace MobLib.Payment.PayU.Rest
 
             var subscriptionModel = subscription.Map<Subscription, Models.Subscription>();
 
+            subscriptionModel.Customer.CreditCards.Add(subscription.CreditCardToken.Map<CreditCardToken, Models.SubscriptionCreditCard>());
+
             var request = this.CreateJsonRequest("/rest/v4.3/subscriptions/", Method.POST);
             request.AddBody(subscriptionModel);
 

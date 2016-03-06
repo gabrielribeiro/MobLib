@@ -1,4 +1,6 @@
-﻿using MobLib.Core.Infra.Dependency;
+﻿using MobLib.Core.Domain.Contracts;
+using MobLib.Core.Domain.Entities;
+using MobLib.Core.Infra.Dependency;
 using System;
 using System.Data.Entity;
 using System.Data.Entity.ModelConfiguration.Conventions;
@@ -41,6 +43,33 @@ namespace MobLib.Core.Infra.Data
             }
 
             base.OnModelCreating(modelBuilder);
+        }
+
+        public override int SaveChanges()
+        {
+            var operationDate = DateTime.Now;
+            var trackerStatuses = new[] { System.Data.Entity.EntityState.Added, System.Data.Entity.EntityState.Modified };
+
+            var entries = this.ChangeTracker.Entries()
+                            .Where(e => trackerStatuses.Contains(e.State) && e.Entity is MobEntity)
+                            .Select(x => x.Cast<MobEntity>());
+
+            foreach (var entry in entries)
+            {
+                if (entry.State == System.Data.Entity.EntityState.Added)
+                {
+                    entry.Entity.CreatedDate = operationDate;
+                    entry.Entity.UpdatedDate = operationDate;
+                    entry.Entity.Active = true;
+                }
+                else
+                {
+                    entry.Property(e => e.CreatedDate).IsModified = false;
+                    entry.Entity.UpdatedDate = operationDate;
+                }
+            }
+
+            return base.SaveChanges();
         }
     }
 }

@@ -68,7 +68,8 @@ namespace MobLib.Payment.PayU.Services
                 throw new MobException("tipo de cartão inválido");
             }
 
-            var country = this.countryService.Find(creditCardToken.CountryId);
+            // fixed country
+            var country = this.countryService.Find(1);
 
             if (country == null)
             {

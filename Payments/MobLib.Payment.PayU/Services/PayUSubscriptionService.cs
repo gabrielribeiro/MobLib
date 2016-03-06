@@ -12,11 +12,23 @@ namespace MobLib.Payment.PayU.Services
     public class PayUSubscriptionService : MobService<Subscription>, IPayUSubscriptionService
     {
         public readonly SubscriptionRestClient restClient;
-        public readonly PayUCustomerService customerService;
-        public readonly PayUCreditCardTokenService creditCardService;
-        public readonly PayUPlanService planService;
+        public readonly IPayUCustomerService customerService;
+        public readonly IPayUCreditCardTokenService creditCardService;
+        public readonly IPayUPlanService planService;
 
-        public PayUSubscriptionService(IPayUSubscriptionRepository repository) : base(repository) { }
+        public PayUSubscriptionService(
+            SubscriptionRestClient restClient,
+            IPayUCustomerService customerService,
+            IPayUCreditCardTokenService creditCardService,
+            IPayUPlanService planService,
+            IPayUSubscriptionRepository repository
+            ) : base(repository) 
+        {
+            this.restClient = restClient;
+            this.customerService = customerService;
+            this.creditCardService = creditCardService;
+            this.planService = planService;
+        }
 
         public override void Insert(Subscription subscription)
         {
@@ -62,6 +74,8 @@ namespace MobLib.Payment.PayU.Services
             }
 
             subscription.SubscriptionPayUId = postedSubscription.SubscriptionPayUId;
+            subscription.StartPeriod = postedSubscription.StartPeriod;
+            subscription.EndPeriod = postedSubscription.EndPeriod;
 
             base.Insert(subscription);
         }

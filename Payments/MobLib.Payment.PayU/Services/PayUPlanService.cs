@@ -14,17 +14,19 @@ namespace MobLib.Payment.PayU.Services
         private readonly PlanRestClient restClient;
 
         private readonly IPayUPlanIntervalService planIntervalService;
-
+        private readonly IPayUCurrencyService currencyService;
         private readonly IPayUAdditionalValueService additionalValueService;
 
         public PayUPlanService(IPayUPlanRepository repository,
             IPayUPlanIntervalService intervalService,
             IPayUAdditionalValueService additionalValueService,
+            IPayUCurrencyService currencyService,
             PlanRestClient restClient)
             : base(repository)
         {
             this.restClient = restClient;
             this.planIntervalService = intervalService;
+            this.currencyService = currencyService;
             this.additionalValueService = additionalValueService;
             this.planIntervalService.AutoSaveEnabled = false;
             this.additionalValueService.AutoSaveEnabled = false;
@@ -65,6 +67,11 @@ namespace MobLib.Payment.PayU.Services
             }
 
             plan.PlanInterval = planInterval;
+
+            foreach (var value in plan.AdditionalValues)
+            {
+                value.Currency = this.currencyService.Find(value.CurrencyId);
+            }
 
             var postedPlan = this.restClient.Post(plan);
 
