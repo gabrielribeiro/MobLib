@@ -59,7 +59,7 @@ namespace MobLib.Payment.PayU.Services
 
             if (!this.planService.Exists(x => x.Id == subscription.PlanId))
             {
-                throw new MobException("Cliente inválido para inscrição");
+                throw new MobException("Plano inválido para inscrição");
             }
             else
             {
