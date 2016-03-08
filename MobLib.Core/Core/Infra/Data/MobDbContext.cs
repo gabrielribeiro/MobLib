@@ -34,13 +34,13 @@ namespace MobLib.Core.Infra.Data
             modelBuilder.Properties<DateTime>().Where(d => d.Name == "UpdatedDate").Configure(d => d.IsRequired());
             modelBuilder.Properties<bool>().Where(x => x.Name == "Active").Configure(b => b.IsRequired());
 
-            var typeFinder = new MobTypeFinder();
-            var modelers = typeFinder.GetInstancesOf<IDataModeler>().OrderBy(x => x.Order);
+            //var typeFinder = new MobTypeFinder();
+            //var modelers = typeFinder.GetInstancesOf<IDataModeler>().OrderBy(x => x.Order);
 
-            foreach (var modeler in modelers)
-            {
-                modeler.RegisterModelConfiguration(modelBuilder);
-            }
+            //foreach (var modeler in modelers)
+            //{
+            //    modeler.RegisterModelConfiguration(modelBuilder);
+            //}
 
             base.OnModelCreating(modelBuilder);
         }
