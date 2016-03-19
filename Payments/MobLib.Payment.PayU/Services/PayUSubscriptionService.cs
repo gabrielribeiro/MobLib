@@ -70,7 +70,7 @@ namespace MobLib.Payment.PayU.Services
 
             if (postedSubscription == null || string.IsNullOrEmpty(postedSubscription.SubscriptionPayUId))
             {
-                throw new MobException("erro ao executar a solicitação ao PayU");
+                throw new MobException("erro ao executar a solicitação ao PayU para inserir inscricao");
             }
 
             subscription.SubscriptionPayUId = postedSubscription.SubscriptionPayUId;
@@ -127,7 +127,7 @@ namespace MobLib.Payment.PayU.Services
             var putedSubscription = this.restClient.Put(persistedSubscription);
             if (putedSubscription == null)
             {
-                throw new MobException("erro ao executar a solicitação ao PayU");
+                throw new MobException("erro ao executar a solicitação ao PayU para atualizar inscricao");
             }
 
             base.Update(subscription);
@@ -153,7 +153,7 @@ namespace MobLib.Payment.PayU.Services
             }
             else
             {
-                throw new MobException("erro ao executar a solicitação ao PayU");
+                throw new MobException("erro ao executar a solicitação ao PayU para excluir inscricao");
             }
         }
 

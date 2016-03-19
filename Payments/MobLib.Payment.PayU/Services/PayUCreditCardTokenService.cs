@@ -83,7 +83,7 @@ namespace MobLib.Payment.PayU.Services
 
             if (postedCreditCard == null || string.IsNullOrEmpty(postedCreditCard.Token))
             {
-                throw new MobException("erro ao executar a solicitação ao PayU");
+                throw new MobException("erro ao executar a solicitação ao PayU para inserir cartao");
             }
 
             creditCardToken.Token = postedCreditCard.Token;
@@ -145,7 +145,7 @@ namespace MobLib.Payment.PayU.Services
             var putedCreditCardToken = this.restClient.Put(persistedCreditCardToken);
             if (putedCreditCardToken == null)
             {
-                throw new MobException("erro ao executar a solicitação ao PayU");
+                throw new MobException("erro ao executar a solicitação ao PayU para atualizar cartao");
             }
 
             base.Update(creditCardToken);
@@ -171,7 +171,7 @@ namespace MobLib.Payment.PayU.Services
             }
             else
             {
-                throw new MobException("erro ao executar a solicitação ao PayU");
+                throw new MobException("erro ao executar a solicitação ao PayU para excluir cartao");
             }
         }
 

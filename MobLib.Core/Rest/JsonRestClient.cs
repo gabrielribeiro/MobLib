@@ -1,4 +1,5 @@
-﻿using RestSharp;
+﻿using MobLib.Exceptions;
+using RestSharp;
 using RestSharp.Authenticators;
 using System;
 using System.Net;
@@ -56,6 +57,12 @@ namespace MobLib.Rest
                 var message = task.Result != null && task.Result.ErrorMessage != null ? task.Result.ErrorMessage : defaultErrorMessage;
                 throw new ApplicationException(message, task.Exception ?? task.Result.ErrorException);
             }
+
+            if ((int)task.Result.StatusCode >= 400) 
+            {
+                throw new MobException(task.Result.Content);
+            }
+
             this.RestoreValidatiton();
             return task.Result;
         }

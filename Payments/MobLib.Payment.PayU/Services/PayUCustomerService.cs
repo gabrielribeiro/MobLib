@@ -30,7 +30,7 @@ namespace MobLib.Payment.PayU.Services
 
             if (postedCustomer == null || string.IsNullOrEmpty(postedCustomer.CustomerPayUId))
             {
-                throw new MobException("erro ao executar a solicitação ao PayU");
+                throw new MobException("erro ao executar  a solicitação ao PayU para inserir cliente");
             }
 
             customer.CustomerPayUId = postedCustomer.CustomerPayUId;
@@ -54,7 +54,7 @@ namespace MobLib.Payment.PayU.Services
             var putedCustomer = this.restClient.Put(persistedCustomer);
             if (putedCustomer == null)
             {
-                throw new MobException("erro ao executar a solicitação ao PayU");
+                throw new MobException("erro ao executar a solicitação ao PayU para atualizar cliente");
             }
 
             base.Update(customer);
@@ -80,7 +80,7 @@ namespace MobLib.Payment.PayU.Services
             }
             else
             {
-                throw new MobException("erro ao executar a solicitação ao PayU");
+                throw new MobException("erro ao executar a solicitação ao PayU para excluir cliente");
             }
         }
 
