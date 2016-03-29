@@ -7,6 +7,8 @@ namespace MobLib.Core.Infra.Dependency
 {
     public abstract class MobDependencyResolver : IDependencyResolver
     {
+        protected IContainer container;
+
         public abstract ILifetimeScope Scope { get; }
 
         public IEnumerable<IDependencyRegistrator> Registrators { get; set; }
@@ -49,6 +51,7 @@ namespace MobLib.Core.Infra.Dependency
             }
 
             builder.Update(container);
+            this.container = container;
             return container;
         }
 
@@ -64,6 +67,27 @@ namespace MobLib.Core.Infra.Dependency
                 return Scope.ResolveNamed<T>(name);
             }
             return Scope.Resolve<T>();
+        }
+
+        public virtual void Register<T>(T instance) where T : class
+        {
+            this.Register(instance, null);
+        }
+
+        public virtual void Register<T>(T instance, string name) where T : class 
+        {
+            var builder = new ContainerBuilder();
+
+            if (!string.IsNullOrWhiteSpace(name))
+            {
+                builder.RegisterInstance(instance).Named<T>(name);
+            }
+            else
+            {
+                builder.RegisterInstance(instance).As<T>();
+            }
+
+            builder.Update(container);
         }
     }
 }

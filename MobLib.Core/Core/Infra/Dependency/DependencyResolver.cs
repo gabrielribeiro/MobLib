@@ -7,7 +7,6 @@ namespace MobLib.Core.Infra.Dependency
 {
     public class DependencyResolver : MobDependencyResolver
     {
-        private IContainer container;
 
         public DependencyResolver()
             : base(true)

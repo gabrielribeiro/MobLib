@@ -40,6 +40,10 @@
       <HintPath>..\..\Schedoo\packages\Autofac.3.5.2\lib\net40\Autofac.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Autofac.Integration.Mvc, Version=3.3.0.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
+      <HintPath>..\..\Schedoo\packages\Autofac.Mvc5.3.3.4\lib\net45\Autofac.Integration.Mvc.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Autofac.Integration.WebApi, Version=3.4.0.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
       <HintPath>..\packages\Autofac.WebApi2.3.4.0\lib\net45\Autofac.Integration.WebApi.dll</HintPath>
       <Private>True</Private>
@@ -130,6 +134,7 @@
     <Compile Include="Core\Infra\Data\IDataModeler.cs" />
     <Compile Include="Core\Infra\Data\IDataSeeder.cs" />
     <Compile Include="Core\Infra\Data\IMobContext.cs" />
+    <Compile Include="Core\Infra\Dependency\MvcDependencyResolver.cs" />
     <Compile Include="Core\Infra\Dependency\DependencyResolverFactory.cs" />
     <Compile Include="Core\Infra\Dependency\IDependencyRegistrator.cs" />
     <Compile Include="Core\Infra\Dependency\IDependencyResolver.cs" />

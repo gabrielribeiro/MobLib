@@ -1,19 +1,21 @@
 ﻿using Autofac;
+using Autofac.Integration.Mvc;
 using Autofac.Integration.WebApi;
 using System.Collections.Generic;
 using Http = System.Web.Http;
 
 namespace MobLib.Core.Infra.Dependency
 {
-    public class WebApiDependencyResolver : MobDependencyResolver
+    public class MvcDependencyResolver : MobDependencyResolver
     {
-        public WebApiDependencyResolver()
+
+        public MvcDependencyResolver()
             : base(true)
         {
 
         }
 
-        public WebApiDependencyResolver(IEnumerable<IDependencyRegistrator> registrators)
+        public MvcDependencyResolver(IEnumerable<IDependencyRegistrator> registrators)
             : base(true, registrators)
         {
 
@@ -24,15 +26,9 @@ namespace MobLib.Core.Infra.Dependency
             get
             {
                 ILifetimeScope scope = null;
-                try
-                {
-                    scope = Http.GlobalConfiguration.Configuration.DependencyResolver.GetRequestLifetimeScope();
-                }
-                catch { }
-
+              
                 if (scope == null)
                 {
-                    // really hackisch. But strange things are going on ?? :-)
                     scope = container.BeginLifetimeScope("AutofacWebRequest");
                 }
 
@@ -42,11 +38,9 @@ namespace MobLib.Core.Infra.Dependency
 
         public override void Initialize()
         {
-            var config = Http.GlobalConfiguration.Configuration;
             this.container = this.CreateContainer();
 
-            config.DependencyResolver = new AutofacWebApiDependencyResolver(this.container);
+            System.Web.Mvc.DependencyResolver.SetResolver(new AutofacDependencyResolver(container));
         }
-
     }
 }
