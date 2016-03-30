@@ -40,7 +40,7 @@ namespace MobLib.Core.Infra.Dependency
         {
             this.container = this.CreateContainer();
 
-            System.Web.Mvc.DependencyResolver.SetResolver(new AutofacDependencyResolver(container));
+            System.Web.Mvc.DependencyResolver.SetResolver(new AutofacDependencyResolver(this.container));
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using Autofac;
+using Autofac.Integration.Mvc;
 using Autofac.Integration.WebApi;
 using System.Collections.Generic;
 using Http = System.Web.Http;
@@ -46,7 +47,7 @@ namespace MobLib.Core.Infra.Dependency
             this.container = this.CreateContainer();
 
             config.DependencyResolver = new AutofacWebApiDependencyResolver(this.container);
+            System.Web.Mvc.DependencyResolver.SetResolver(new AutofacDependencyResolver(this.container));
         }
-
     }
 }
