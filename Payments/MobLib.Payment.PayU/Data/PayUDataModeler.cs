@@ -18,6 +18,7 @@ namespace MobLib.Payment.PayU.Data
             modelBuilder.Configurations.Add(new PlanMap());
             modelBuilder.Configurations.Add(new PlanIntervalMap());
             modelBuilder.Configurations.Add(new SubscriptionMap());
+            modelBuilder.Configurations.Add(new ResponseMap());
 
             modelBuilder.ComplexType<Address>().Property(x => x.Line1).IsRequired();
             modelBuilder.ComplexType<Address>().Property(x => x.Line2).IsOptional();

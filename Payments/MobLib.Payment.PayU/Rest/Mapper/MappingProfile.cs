@@ -1,10 +1,6 @@
 ﻿using AutoMapper;
 using MobLib.Payment.PayU.Domain.Entities;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MobLib.Payment.PayU.Rest.Mapper
 {
@@ -68,6 +64,19 @@ namespace MobLib.Payment.PayU.Rest.Mapper
                .ForMember(dest => dest.CreditCardTokens, conf => conf.MapFrom(src => src.CreditCards));
 
             this.CreateMap<Plan, Models.SubscriptionPlan>();
+            this.CreateMap<ResponseModel, Response>()
+                .ForMember(dest => dest.ResponseCode, conf => conf.MapFrom(src => src.response_code_pol))
+                .ForMember(dest => dest.TransactionDate, conf => conf.MapFrom(src => src.transaction_date))
+                .ForMember(dest => dest.Description, conf => conf.MapFrom(src => src.description))
+                .ForMember(dest => dest.ResponseMessage, conf => conf.MapFrom(src => src.response_message_pol))
+                .ForMember(dest => dest.TransactionId, conf => conf.MapFrom(src => src.transaction_id))
+                .ForMember(dest => dest.DateNextPayment, conf => conf.MapFrom(src => src.date_next_payment))
+                .ForMember(dest => dest.Sign, conf => conf.MapFrom(src => src.sign))
+                .ForMember(dest => dest.Reference, conf => conf.MapFrom(src => src.reference_pol))
+                .ForMember(dest => dest.ReferenceSale, conf => conf.MapFrom(src => src.reference_sale))
+                .ForMember(dest => dest.AuthorizationCode, conf => conf.MapFrom(src => src.authorization_code))
+                .ForMember(dest => dest.ReferenceRecurringPayment, conf => conf.MapFrom(src => src.reference_recurring_payment));
+
             this.CreateMap<Models.SubscriptionPlan, Plan>();
 
             this.CreateMap<AdditionalValue, Models.AdditionalValue>()

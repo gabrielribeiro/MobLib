@@ -19,6 +19,8 @@ namespace MobLib.Payment.PayU.Data.Mapping
             this.Property(x => x.TrialDays).IsRequired();
             this.Property(x => x.StartPeriod).IsRequired();
             this.Property(x => x.EndPeriod).IsRequired();
+            this.Property(x => x.Approved).IsRequired();
+            this.Property(x => x.DateNextPayment).IsOptional();
 
             this.HasRequired(x => x.Customer)
                 .WithMany(x => x.Subscriptions)

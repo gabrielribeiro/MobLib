@@ -13,8 +13,8 @@ namespace MobLib.Payment.PayU.Rest.Models
         [JsonProperty("name")]
         public string Name { get; set; }
 
-        [JsonProperty("document")]
-        public string Document { get; set; }
+        //[JsonProperty("document")]
+        //public string Document { get; set; }
 
         [JsonProperty("type")]
         public string CreditCardTypeId { get; set; }

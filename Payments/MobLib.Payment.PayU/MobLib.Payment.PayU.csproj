@@ -113,6 +113,7 @@
     <Compile Include="Data\Mapping\CountryMap.cs" />
     <Compile Include="Data\Mapping\CreditCardTokenMap.cs" />
     <Compile Include="Data\Mapping\CreditCardTypeMap.cs" />
+    <Compile Include="Data\Mapping\ResponseMap.cs" />
     <Compile Include="Data\PayUDataSeeder.cs" />
     <Compile Include="Data\Repositories\PayUPlanIntervalRepository.cs" />
     <Compile Include="Data\Repositories\PayUSubscriptionRepository.cs" />
@@ -159,6 +160,8 @@
     <Compile Include="Domain\Entities\CurrencyCode.cs" />
     <Compile Include="Domain\Entities\Customer.cs" />
     <Compile Include="Domain\Entities\CreditCardToken.cs" />
+    <Compile Include="Domain\Entities\Response.cs" />
+    <Compile Include="Domain\Entities\ResponseModel.cs" />
     <Compile Include="Domain\Entities\Plan.cs" />
     <Compile Include="Domain\Entities\PlanInterval.cs" />
     <Compile Include="Domain\Entities\Subscription.cs" />

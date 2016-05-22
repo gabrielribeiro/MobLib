@@ -5,5 +5,6 @@ namespace MobLib.Payment.PayU.Domain.Contracts
 {
     public interface IPayUSubscriptionService : IMobService<Subscription>
     {
+        Subscription RegistrerResponse(ResponseModel responseModel);
     }
 }

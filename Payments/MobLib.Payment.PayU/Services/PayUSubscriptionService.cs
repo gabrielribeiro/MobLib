@@ -1,25 +1,31 @@
-﻿using MobLib.Core.Services;
+﻿using MobLib.Core.Domain.Contracts;
+using MobLib.Core.Services;
 using MobLib.Exceptions;
+using MobLib.Extensions;
 using MobLib.Payment.PayU.Domain.Contracts;
 using MobLib.Payment.PayU.Domain.Entities;
 using MobLib.Payment.PayU.Rest;
+using MobLib.Payment.PayU.Rest.Mapper;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Linq.Expressions;
 
 namespace MobLib.Payment.PayU.Services
 {
     public class PayUSubscriptionService : MobService<Subscription>, IPayUSubscriptionService
     {
-        public readonly SubscriptionRestClient restClient;
-        public readonly IPayUCustomerService customerService;
-        public readonly IPayUCreditCardTokenService creditCardService;
-        public readonly IPayUPlanService planService;
+        protected readonly SubscriptionRestClient restClient;
+        protected readonly IPayUCustomerService customerService;
+        protected readonly IPayUCreditCardTokenService creditCardService;
+        protected readonly IPayUPlanService planService;
+        protected readonly IMobService<Response> responseService;
 
         public PayUSubscriptionService(
             SubscriptionRestClient restClient,
             IPayUCustomerService customerService,
             IPayUCreditCardTokenService creditCardService,
+            IMobService<Response> responseService,
             IPayUPlanService planService,
             IPayUSubscriptionRepository repository
             ) : base(repository) 
@@ -28,6 +34,34 @@ namespace MobLib.Payment.PayU.Services
             this.customerService = customerService;
             this.creditCardService = creditCardService;
             this.planService = planService;
+            this.responseService = responseService;
+        }
+
+        public Subscription RegistrerResponse(ResponseModel responseModel)
+        {
+            if (responseModel == null)
+            {
+                throw new ArgumentNullException("responseModel");
+            }
+            Response response = responseModel.Map<ResponseModel, Response>();
+
+            Subscription responseSubscrition = this.GetResponseSubscription(response);
+
+            if (responseSubscrition != null)
+            {
+
+                response.SubscritionFound = true;
+                response.SubscriptionId = responseSubscrition.Id;
+                
+                responseSubscrition.DateNextPayment = response.DateNextPayment;
+                responseSubscrition.Approved = response.ResponseCode == 1;
+
+                base.Update(responseSubscrition);
+            }
+
+            this.responseService.Insert(response);
+
+            return responseSubscrition;
         }
 
         public override void Insert(Subscription subscription)
@@ -82,38 +116,7 @@ namespace MobLib.Payment.PayU.Services
 
         public override void Update(Subscription subscription)
         {
-            if (subscription == null)
-            {
-                throw new MobException("subscription nao pode ser nulo");
-            }
-
-
-            if (!this.customerService.Exists(x => x.Id == subscription.CustomerId))
-            {
-                throw new MobException("Cliente inválido para inscrição");
-            }
-            else
-            {
-                subscription.Customer = this.customerService.Find(subscription.CustomerId);
-            }
-
-            if (!this.creditCardService.Exists(x => x.Id == subscription.CreditCardTokenId))
-            {
-                throw new MobException("Cliente inválido para inscrição");
-            }
-            else
-            {
-                subscription.CreditCardToken = this.creditCardService.Find(subscription.CreditCardTokenId);
-            }
-
-            if (!this.planService.Exists(x => x.Id == subscription.PlanId))
-            {
-                throw new MobException("Cliente inválido para inscrição");
-            }
-            else
-            {
-                subscription.Plan = this.planService.Find(subscription.PlanId);
-            }
+            this.ValidateSubscrition(subscription);
 
             var persistedSubscription = this.Find(subscription.Id);
 
@@ -175,6 +178,59 @@ namespace MobLib.Payment.PayU.Services
         public override void Delete(Expression<Func<Subscription, bool>> filterExpression)
         {
             throw new NotSupportedException("method not suported");
+        }
+
+        private void ValidateSubscrition(Subscription subscription)
+        {
+            if (subscription == null)
+            {
+                throw new MobException("subscription nao pode ser nulo");
+            }
+
+
+            if (!this.customerService.Exists(x => x.Id == subscription.CustomerId))
+            {
+                throw new MobException("Cliente inválido para inscrição");
+            }
+            else
+            {
+                subscription.Customer = this.customerService.Find(subscription.CustomerId);
+            }
+
+            if (!this.creditCardService.Exists(x => x.Id == subscription.CreditCardTokenId))
+            {
+                throw new MobException("Cliente inválido para inscrição");
+            }
+            else
+            {
+                subscription.CreditCardToken = this.creditCardService.Find(subscription.CreditCardTokenId);
+            }
+
+            if (!this.planService.Exists(x => x.Id == subscription.PlanId))
+            {
+                throw new MobException("Cliente inválido para inscrição");
+            }
+            else
+            {
+                subscription.Plan = this.planService.Find(subscription.PlanId);
+            }
+        }
+        
+        private Subscription GetResponseSubscription(Response response)
+        {
+            Subscription result = null;
+            if (response.ReferenceRecurringPayment.IsNotNullOrWhiteSpace())
+            {
+                string subscritionPayUId = response.ReferenceRecurringPayment.Split('_').FirstOrDefault();
+
+
+                if (subscritionPayUId.IsNotNullOrWhiteSpace())
+                {
+                    result = this.SingleOrDefault(x => x.SubscriptionPayUId == subscritionPayUId);
+                }
+            }
+
+            return result;
         }
     }
 }
