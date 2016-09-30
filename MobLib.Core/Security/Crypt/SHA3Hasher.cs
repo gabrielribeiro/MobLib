@@ -2,7 +2,7 @@
 using System;
 using System.Text;
 
-namespace MobLib.Crypt
+namespace MobLib.Security.Criptography
 {
     /// <summary>
     /// This class generates and compares hashes using SHA3 hashing algorithm.

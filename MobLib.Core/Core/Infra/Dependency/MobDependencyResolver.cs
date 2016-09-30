@@ -89,5 +89,7 @@ namespace MobLib.Core.Infra.Dependency
 
             builder.Update(container);
         }
+
+        public virtual bool IsRegistred
     }
 }

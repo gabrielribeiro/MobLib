@@ -10,5 +10,8 @@ namespace MobLib.Core.Infra.Dependency
         void Register<T>(T instance) where T : class;
 
         void Register<T>(T instance, string name) where T : class;
+
+        bool IsRegistered<TService>();
+        bool IsRegistered<TService>(string serviceName);
     }
 }

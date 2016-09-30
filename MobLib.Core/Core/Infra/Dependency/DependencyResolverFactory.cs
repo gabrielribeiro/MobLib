@@ -57,6 +57,15 @@ namespace MobLib.Core.Infra.Dependency
             }
             return Singleton<IDependencyResolver>.Instance;
         }
+
+
+        public static IDependencyResolver CurrentResolver
+        {
+            get
+            {
+                return GetCurrentResolver();
+            }
+        }
     }
 
     public enum ResolverType
